@@ -33,7 +33,7 @@ public class BackendGenerator extends BasicGenerator{
                 if (out != null) {
                     context.clear();
                     context.put("class", cl);
-                    context.put("FMProperties", cl.getProperties());
+                    context.put("properties", cl.getProperties());
                     context.put("importedPackages", cl.getImportedPackages());
                     getTemplate().process(context, out);
                     out.flush();
