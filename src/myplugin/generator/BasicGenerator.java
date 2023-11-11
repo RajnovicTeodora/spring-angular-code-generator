@@ -176,5 +176,8 @@ public abstract class BasicGenerator {
 	public void setFilePackage(String filePackage) {
 		this.filePackage = filePackage;
 	}
+	protected String uncapFirst(String string) {
+         return Character.toLowerCase(string.charAt(0)) + string.substring(1);
+	}
 
 }
