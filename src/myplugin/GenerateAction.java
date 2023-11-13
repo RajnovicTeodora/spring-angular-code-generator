@@ -51,6 +51,7 @@ class GenerateAction extends MDAction {
 			analyzer.prepareModel();
 
 			this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX + ".datamapper", "DataMapperGenerator");
 
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
