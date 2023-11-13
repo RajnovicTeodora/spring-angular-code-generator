@@ -1,7 +1,7 @@
-package ${package}.mapper;
+package ${class.typePackage}.mapper;
 
-import ${package}.model.${class.name?cap_first};
-import ${package}.dto.${class.name?cap_first}DTO;
+import ${class.typePackage}.model.${class.name?cap_first};
+import ${class.typePackage}.dto.${class.name?cap_first}DTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
