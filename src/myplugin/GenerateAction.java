@@ -21,6 +21,7 @@ import myplugin.analyzer.AnalyzeException;
 import myplugin.analyzer.ModelAnalyzer;
 import myplugin.generator.BasicGenerator;
 import myplugin.generator.ControllerGenerator;
+import myplugin.generator.DataMapperGenerator;
 import myplugin.generator.EJBGenerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
@@ -51,6 +52,7 @@ class GenerateAction extends MDAction {
 			analyzer.prepareModel();
 
 			this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
 
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
@@ -104,7 +106,9 @@ class GenerateAction extends MDAction {
 				generator = new ControllerGenerator(generatorOptions);
 				break;
 			// TODO... Add other generators
-
+			case "DataMapperGenerator":
+				generator = new DataMapperGenerator(generatorOptions);
+				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);
 		}
