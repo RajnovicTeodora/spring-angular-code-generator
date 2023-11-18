@@ -9,13 +9,17 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BackendProperty extends FMProperty {
+public class FMPrimitiveProperty extends FMBackendProperty {
 
-	public BackendProperty(String name, String type, String visibility,
+	public FMPrimitiveProperty(String name, String type, String visibility,
 			int lower, int upper) {
 		super(name, type, visibility, lower, upper);
+
 	}
 
-	private boolean jsonIgnore;
-
+	private String columnName;
+	private GenerationType generationType;
+	private int lenght;
+	private Boolean isId;
+	private Boolean unique;
 }

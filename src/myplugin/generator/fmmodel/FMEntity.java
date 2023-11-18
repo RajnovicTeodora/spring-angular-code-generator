@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Entity extends FMClass{
+public class FMEntity extends FMClass {
 
-	public Entity(String name, String classPackage, String visibility) {
+	public FMEntity(String name, String classPackage, String visibility) {
 		super(name, classPackage, visibility);
 	}
 
 	private String tableName;
-	
+
 }

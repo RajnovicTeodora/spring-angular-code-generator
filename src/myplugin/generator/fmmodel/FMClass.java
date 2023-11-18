@@ -8,11 +8,12 @@ import java.util.List;
 public class FMClass extends FMType {	
 	
 	private String visibility;
-	
+	private FMEntity entity = null;
 
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
-	
+	private List<FMReferenceProperty> referenceProperties = new ArrayList<FMReferenceProperty>();
+	private List<FMPrimitiveProperty> primitiveProperties = new ArrayList<FMPrimitiveProperty>();
 	//list of packages (for import declarations) 
 	private List<String> importedPackages = new ArrayList<String>();
 	
@@ -62,6 +63,30 @@ public class FMClass extends FMType {
 
 	public void setVisibility(String visibility) {
 		this.visibility = visibility;
+	}
+
+	public List<FMReferenceProperty> getReferenceProperties() {
+		return referenceProperties;
+	}
+
+	public void setReferenceProperties(List<FMReferenceProperty> referenceProperties) {
+		this.referenceProperties = referenceProperties;
+	}
+
+	public List<FMPrimitiveProperty> getPrimitiveProperties() {
+		return primitiveProperties;
+	}
+
+	public void setPrimitiveProperties(List<FMPrimitiveProperty> primitiveProperties) {
+		this.primitiveProperties = primitiveProperties;
+	}
+
+	public FMEntity getEntity() {
+		return entity;
+	}
+
+	public void setEntity(FMEntity entity) {
+		this.entity = entity;
 	}	
 
 	

@@ -9,17 +9,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrimitiveProperty extends BackendProperty {
+public class FMReferenceProperty extends FMBackendProperty {
 
-	public PrimitiveProperty(String name, String type, String visibility,
+	public FMReferenceProperty(String name, String type, String visibility,
 			int lower, int upper) {
 		super(name, type, visibility, lower, upper);
-
 	}
 
-	private String columnName;
-	private GenerationType generationType;
-	private int lenght;
-	private Boolean isId;
-	private Boolean unique;
+	private String mappedBy;
+	private CascadeType cascadeType;
+	private FetchType fetchType;
+
 }

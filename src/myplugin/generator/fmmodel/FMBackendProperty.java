@@ -9,15 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReferenceProperty extends BackendProperty {
+public class FMBackendProperty extends FMProperty {
 
-	public ReferenceProperty(String name, String type, String visibility,
-			int lower, int upper) {
+	public FMBackendProperty(String name, String type, String visibility, int lower, int upper) {
 		super(name, type, visibility, lower, upper);
 	}
 
-	private String mappedBy;
-	private CascadeType cascadeType;
-	private FetchType fetchType;
+	private boolean jsonIgnore;
 
 }
