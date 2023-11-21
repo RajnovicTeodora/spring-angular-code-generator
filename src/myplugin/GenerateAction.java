@@ -110,6 +110,7 @@ class GenerateAction extends MDAction {
 				break;
 			case "PomGenerator":
 				generator = new PomGenerator(generatorOptions);
+				break;
 			case "DataMapperGenerator":
 				generator = new DataMapperGenerator(generatorOptions);
 				break;

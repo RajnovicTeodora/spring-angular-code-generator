@@ -20,24 +20,27 @@ import com.nomagic.magicdraw.actions.ActionsConfiguratorsManager;
 public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 	String pluginDir = null;
-
-	private static final String BACKEND_FILEPATH = "src//main//java//uns//ac//rs//mbrs//";
+	
+	private static final String GEN_DIR = "c:/generated";
+	private static final String MAIN_JAVA = GEN_DIR + "/src/main/java";
+	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
 
 	public void init() {
 		JOptionPane.showMessageDialog(null, "My Plugin init");
 		
-		pluginDir = getDescriptor().getPluginDirectory().getPath();
-
 		// Creating submenu in the MagicDraw main menu
 		ActionsConfiguratorsManager manager = ActionsConfiguratorsManager.getInstance();
 		manager.addMainMenuConfigurator(new MainMenuConfigurator(getSubmenuActions()));
 
-		generateOption("ControllerGenerator", "controller", BACKEND_FILEPATH + "controllers", "{0}.java");
-
+		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX + ".controller", "{0}Controller.java", MAIN_JAVA);
+		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX + ".mapper", "{0}Mapper.java", MAIN_JAVA);
+		generateOption("PomGenerator", "pomxml", "", "pom.xml", GEN_DIR);
+		
 		/**
 		 * @Todo: load project options (@see myplugin.generator.options.ProjectOptions)
 		 *        from ProjectOptions.xml and take ejb generator options
 		 */
+		
 	}
 
 	private NMAction[] getSubmenuActions() {
@@ -52,37 +55,11 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		return true;
 	}
 
-	private void generateOption(String generatorName, String templateName, String filePath, String fileType) {
-		pluginDir = getDescriptor().getPluginDirectory().getPath();
-		String output_path = getOutputPath();
-		GeneratorOptions option = new GeneratorOptions(output_path, templateName, "templates", fileType, true,
-				filePath);
-		option.setTemplateDir(pluginDir + File.separator + option.getTemplateDir());
+	private void generateOption(String generatorName, String templateName, String packages, String fileType, String filePath) {
+		pluginDir = getDescriptor().getPluginDirectory().getPath();		
+		GeneratorOptions option = new GeneratorOptions(filePath, templateName, 
+				pluginDir + File.separator + "templates", fileType, true, packages);
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put(generatorName, option);
-	}
-
-	private String getOutputPath() {
-		String output_path = "";
-		Properties prop = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream("resources/ProjectOptions.xml");
-			// load a properties file
-			prop.load(input);
-			// get the property value and print it out
-			output_path = prop.getProperty("OUTPUT_PATH");
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return output_path;
 	}
 
 }

@@ -13,9 +13,9 @@ public class ${class.name?cap_first}Mapper {
         return ${class.name?cap_first}.builder()
         		<#list properties as property>
 	        		<#if property.type == "boolean">
-	        		.${property?lower_case}(dto.is${property?cap_first}())
+	        		.${property.name?lower_case}(dto.is${property.name?cap_first}())
 	        		<#else>
-	        		.${property?lower_case}(dto.get${property?cap_first}())
+	        		.${property.name?lower_case}(dto.get${property.name?cap_first}())
 	        		</#if> 
         		</#list>
                 .build();
@@ -25,9 +25,9 @@ public class ${class.name?cap_first}Mapper {
         return ${class.name?cap_first}DTO.builder()
         		<#list properties as property>
 	        		<#if property.type == "boolean">
-	        		.${property?lower_case}(model.is${property?cap_first}())
+	        		.${property.name?lower_case}(model.is${property.name?cap_first}())
 	        		<#else>
-        			.${property?lower_case}(model.get${property?cap_first}())
+        			.${property.name?lower_case}(model.get${property.name?cap_first}())
         			</#if> 
         		</#list>
                 .build();
