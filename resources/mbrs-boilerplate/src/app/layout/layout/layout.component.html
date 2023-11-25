@@ -1,0 +1,14 @@
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem>
+    <a ngbNavLink [routerLink]="['/students']" routerLinkActive="active"
+      >Students</a
+    >
+  </li>
+  <li ngbNavItem>
+    <a ngbNavLink [routerLink]="['/grades']" routerLinkActive="active"
+      >Grades</a
+    >
+  </li>
+</ul>
+
+<router-outlet></router-outlet>
