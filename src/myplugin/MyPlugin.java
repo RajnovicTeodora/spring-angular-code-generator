@@ -35,6 +35,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX + ".controller", "{0}Controller.java", MAIN_JAVA);
 		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX + ".mapper", "{0}Mapper.java", MAIN_JAVA);
 		generateOption("PomGenerator", "pomxml", "", "pom.xml", GEN_DIR);
+		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX + ".service", "{0}Service.java", MAIN_JAVA);
+		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX + ".repository", "{0}Repository.java", MAIN_JAVA);
 		
 		/**
 		 * @Todo: load project options (@see myplugin.generator.options.ProjectOptions)
