@@ -1,7 +1,7 @@
-package com.diplomski.myapp.service.impl;
+package ${class.typePackage}.service;
 
-import com.diplomski.myapp.domain.${class.name};
-import com.diplomski.myapp.repository.${class.name}Repository;
+import ${class.typePackage}.repository.${class.getName()}Repository;
+import ${class.typePackage}.model.${class.getName()};
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,9 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 <#list class.properties as property>
- <#if property.type != "String" || property.type != "boolean" || property.type != "int" || property.type != "double" || property.type != "short" || property.type != "long" || property.type != "char">
-import com.diplomski.myapp.service.${property.type}Service;
+ <#if property.type != "String" && property.type != "boolean" && property.type != "byte" && property.type != "int" && property.type != "float" && property.type != "Integer" && property.type != "double" && property.type != "short" && property.type != "long" && property.type != "char">
+import ${class.typePackage}.service.${property.type}Service;
 </#if>
 </#list>
 
@@ -53,8 +54,8 @@ public class ${class.name}Service  {
             .map(existing${class.name} -> {
             
             <#list class.properties as property>
-			    if (${class.name?uncap_first}.get${property?cap_first}() != null) {
-			        existing${class.name}.set${property?cap_first}(${class.name?uncap_first}.get${property?cap_first}());
+			    if (${class.name?uncap_first}.get${property.name?cap_first}() != null) {
+			        existing${class.name}.set${property.name?cap_first}(${class.name?uncap_first}.get${property.name?cap_first}());
 			    }
 			</#list>
 
@@ -81,12 +82,12 @@ public void delete(Long id) {
     if (existing${class.name} != null) {
         existing${class.name}.setDeleted(true);
         <#list class.properties as property>
-            if(!existing${class.name}.get${property?cap_first}().getClass().isPrimitive()){
+            if(!existing${class.name}.get${property.name?cap_first}().getClass().isPrimitive()){
                 <#if property.type != "List">
                 ${property.name}Service.delete(existing${class.name}.get${property.name?cap_first}().getId());
                 </#if>
                 <#if property.type == "List">
-    for (${property.genericType} ${property.name?uncap_first} : existing${class.name}.get${property?cap_first}()) {
+    for (${property.genericType} ${property.name?uncap_first} : existing${class.name}.get${property.name?cap_first}()) {
         ${property.name}Service.delete(${property.name?uncap_first}.getId());
     }
 </#if>

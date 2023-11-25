@@ -1,26 +1,28 @@
-package ${class.typePackages}.repositories;
+package ${class.typePackage}.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.{nazivApp}.{nazivDrugi}.${class.typePackage}.models.${class.name};
+import ${class.typePackage}.model.${class.getName()};
+
 
 <#assign hasIdProperty = false>
-<#list class.properties as property>
-  <#if property.name == "id">
+<#list properties as property>
+ <#--<#if property.type == "String" && property.type == "boolean" && property.type == "byte" && property.type == "int" && property.type == "float" && property.type == "Integer" && property.type == "double" && property.type == "short" && property.type == "long" && property.type == "char">-->
+ <#if property.class.name == "FMPrimitiveProperty">
+  <#if property.generationType.getName() == "IDENTITY">
     <#assign hasIdProperty = true>
     <#assign idType = property.type>
   </#if>
+  </#if>
 </#list>
 
+
 <#if hasIdProperty>
-
-
 @Repository
-public interface ${class.name}Repository extends JpaRepository<${class.name}, ${idType}> {
+public interface ${class.getName()}Repository extends JpaRepository<${class.getName()}, ${idType}> {
 }
 <#else>
 
-
 @Repository
-public interface ${class.name}Repository extends JpaRepository<${class.name}, Long> {
+public interface ${class.getName()}Repository extends JpaRepository<${class.getName()}, Long> {
 }
 </#if>
