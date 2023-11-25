@@ -24,6 +24,8 @@ import myplugin.generator.ControllerGenerator;
 import myplugin.generator.DataMapperGenerator;
 import myplugin.generator.EJBGenerator;
 import myplugin.generator.PomGenerator;
+import myplugin.generator.RepositoryGenerator;
+import myplugin.generator.ServiceGenerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 import myplugin.generator.options.ProjectOptions;
@@ -52,9 +54,12 @@ class GenerateAction extends MDAction {
 		try {
 			analyzer.prepareModel();
 
-			this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
-			this.generateComponent(root, "", "PomGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
+			//this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
+			//this.generateComponent(root, PACKAGE_PREFIX + "proba.service", "ServiceGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX + ".repository", "RepositoryGenerator");
+			
+			//this.generateComponent(root, "", "PomGenerator");
+			//this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
 
 
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
@@ -112,6 +117,14 @@ class GenerateAction extends MDAction {
 				generator = new PomGenerator(generatorOptions);
 			case "DataMapperGenerator":
 				generator = new DataMapperGenerator(generatorOptions);
+				break;
+			case "ServiceGenerator":
+				System.out.print("stiglo");
+				generator = new ServiceGenerator(generatorOptions);
+				break;
+			case "RepositoryGenerator":
+				System.out.print("stiglo2");
+				generator = new RepositoryGenerator(generatorOptions);
 				break;
 			// TODO... Add other generators	
 			default:

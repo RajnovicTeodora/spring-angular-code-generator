@@ -1,26 +1,25 @@
-package ${class.typePackages}.repositories;
+package ${class.typePackage}.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.{nazivApp}.{nazivDrugi}.${class.typePackage}.models.${class.name};
+import ${class.typePackage}.model.${class.getName()};
+
 
 <#assign hasIdProperty = false>
 <#list class.properties as property>
-  <#if property.name == "id">
+  <#if property.getName() == "id">
     <#assign hasIdProperty = true>
     <#assign idType = property.type>
   </#if>
 </#list>
 
+
 <#if hasIdProperty>
-
-
 @Repository
-public interface ${class.name}Repository extends JpaRepository<${class.name}, ${idType}> {
+public interface ${class.getName()}Repository extends JpaRepository<${class.getName()}, ${idType}> {
 }
 <#else>
 
-
 @Repository
-public interface ${class.name}Repository extends JpaRepository<${class.name}, Long> {
+public interface ${class.getName()}Repository extends JpaRepository<${class.getName()}, Long> {
 }
 </#if>

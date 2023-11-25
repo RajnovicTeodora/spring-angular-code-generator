@@ -32,8 +32,9 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		ActionsConfiguratorsManager manager = ActionsConfiguratorsManager.getInstance();
 		manager.addMainMenuConfigurator(new MainMenuConfigurator(getSubmenuActions()));
 
-		generateOption("ControllerGenerator", "controller", BACKEND_FILEPATH + "controllers", "{0}.java");
-
+		// generateOption("ControllerGenerator", "controller", BACKEND_FILEPATH + "controllers", "{0}.java");
+        // generateOption("ServiceGenerator", "service", BACKEND_FILEPATH + "services", "{0}.java");
+	    generateOption("RepositoryGenerator", "repository", BACKEND_FILEPATH + "repositorys", "{0}.java");
 		/**
 		 * @Todo: load project options (@see myplugin.generator.options.ProjectOptions)
 		 *        from ProjectOptions.xml and take ejb generator options
