@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StudentService } from '../../shared/service/student/student.service';
+import { Grade } from '../../shared/model/grade';
 
 @Component({
   selector: 'app-student-edit',
@@ -19,6 +20,7 @@ import { StudentService } from '../../shared/service/student/student.service';
 export class StudentEditComponent implements OnInit {
   studentForm!: FormGroup;
   isEditMode: boolean = false;
+  grades: Grade[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +53,7 @@ export class StudentEditComponent implements OnInit {
 
   private fetchStudentData(studentId: number): void {
     this.service.findById(studentId).then((studentData: any) => {
+      this.grades = studentData.grades;
       this.studentForm.patchValue({
         name: studentData.name,
         age: studentData.age,

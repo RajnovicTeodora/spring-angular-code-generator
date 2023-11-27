@@ -2,11 +2,17 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Student } from '../../model/student';
 import { Observable, firstValueFrom } from 'rxjs';
+import { Grade } from '../../model/grade';
+
+const grades: Grade[] = [
+  {id:2,subject:"Math", gradeNum:10},
+  {id:1,subject:"Serb", gradeNum:10}
+];
 
 const students: Student[] = [
-  { id: 1, name: 'John Doe', age: 12 },
-  { id: 2, name: 'Jane Smith', age: 52 },
-  { id: 3, name: 'Alice Johnson', age: 26 },
+  { id: 1, name: 'John Doe', age: 12, grades:grades},
+  { id: 2, name: 'Jane Smith', age: 52, grades:grades },
+  { id: 3, name: 'Alice Johnson', age: 26, grades:grades },
 ];
 
 const getStudentsObservable = (): Observable<Student[]> => {
