@@ -8,6 +8,7 @@
       <th scope="col">Name</th>
       <th scope="col">Age</th>
       <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,16 @@
       </td>
       <td>
         <button (click)="open(student.id)" class="btn btn-info">
+          <fa-icon [icon]="faInfo"></fa-icon>
+        </button>
+      </td>
+      <td>
+        <button (click)="delete(student)" class="btn btn-danger">
+          <fa-icon [icon]="faInfo"></fa-icon>
+        </button>
+      </td>
+      <td>
+        <button (click)="view(student.id)" class="btn btn-info">
           <fa-icon [icon]="faInfo"></fa-icon>
         </button>
       </td>

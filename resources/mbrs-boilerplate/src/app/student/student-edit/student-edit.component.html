@@ -29,4 +29,29 @@
   >
     Submit
   </button>
+<br/>
+  <div *ngIf="this.isEditMode" class="form-group">
+    <label for="age">Grades:</label>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" ><span>Id</span> </th>
+          <th scope="col" ><span >Grade</span> </th>
+          <th scope="col" ><span >Subject</span> </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let grade of grades;" data-cy="entityTable">
+          <td>{{ grade.id }}</td>
+          <td>{{ grade.gradeNum }}</td>
+          <td>{{ grade.subject }}</td>
+          <td>
+            <!-- <a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 </form>

@@ -5,6 +5,8 @@ import { Student } from '../../shared/model/student';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAdd, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { StudentDeleteComponent } from '../student-delete/student-delete.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-students',
@@ -18,7 +20,10 @@ export class StudentsComponent implements OnInit {
   faInfo = faInfo;
   faAdd = faAdd;
 
-  constructor(private service: StudentService, private router: Router) {}
+  constructor(
+    private service: StudentService,
+    private router: Router,
+    protected modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.initializeData();
@@ -34,5 +39,17 @@ export class StudentsComponent implements OnInit {
 
   create() {
     this.router.navigate(['students', 'new']);
+  }
+  delete(student: Student): void {
+    const modalRef = this.modalService.open(StudentDeleteComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.student = student;
+    modalRef.closed.subscribe(reason => {
+      if (reason === 'deleted') {
+        //this.loadPage(); neki refresh
+      }
+    });
+  }
+  view(id: number) {
+    this.router.navigate(['students/view/', id]);
   }
 }
