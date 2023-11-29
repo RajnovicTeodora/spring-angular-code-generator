@@ -17,7 +17,7 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	}
 
 	public FMPrimitiveProperty(String name, String type, String visibility, int lower, int upper, String columnName,
-			GenerationType generationType, int length, Boolean isId, Boolean unique) {
+			GenerationType generationType, Integer length, Boolean isId, Boolean unique) {
 		super(name, type, visibility, lower, upper);
 		this.columnName = columnName;
 		this.generationType = generationType;
