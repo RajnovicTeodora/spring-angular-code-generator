@@ -15,6 +15,11 @@ public class FMBackendProperty extends FMProperty {
 		super(name, type, visibility, lower, upper);
 	}
 
+	public FMBackendProperty(String name, String type, String visibility, int lower, int upper, boolean jsonIgnore) {
+		super(name, type, visibility, lower, upper);
+		this.jsonIgnore = jsonIgnore;
+	}
+
 	private boolean jsonIgnore;
 
 }
