@@ -15,6 +15,10 @@ public class FMProperty extends FMElement  {
 	 * Also, provide these meta-attributes or tags in the modeling languange metaclass or 
 	 * stereotype */
 
+	private FMPrimitiveProperty primitiveProperty;
+	
+	private FMReferenceProperty referenceProperty;
+	
 	
 	public FMProperty(String name, String type, String visibility, int lower, int upper) {
 		super(name);
@@ -53,4 +57,22 @@ public class FMProperty extends FMElement  {
 	public void setUpper(Integer upper) {
 		this.upper = upper;
 	}
+
+	public FMPrimitiveProperty getPrimitiveProperty() {
+		return primitiveProperty;
+	}
+
+	public void setPrimitiveProperty(FMPrimitiveProperty primitiveProperty) {
+		this.primitiveProperty = primitiveProperty;
+	}
+
+	public FMReferenceProperty getReferenceProperty() {
+		return referenceProperty;
+	}
+
+	public void setReferenceProperty(FMReferenceProperty referenceProperty) {
+		this.referenceProperty = referenceProperty;
+	}
+	
+	
 }
