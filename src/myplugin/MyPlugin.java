@@ -38,6 +38,11 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX + ".service", "{0}Service.java", MAIN_JAVA);
 		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX + ".repository", "{0}Repository.java", MAIN_JAVA);
 		
+		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX + ".controller", "{0}-delete.component.html", MAIN_JAVA);
+		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX + ".mapper", "{0}-delete.component.scss", MAIN_JAVA);
+		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX + ".service", "{0}-delete.component.spec.ts", MAIN_JAVA);
+		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX + ".repository", "{0}-delete.component.ts", MAIN_JAVA);
+		
 		/**
 		 * @Todo: load project options (@see myplugin.generator.options.ProjectOptions)
 		 *        from ProjectOptions.xml and take ejb generator options
