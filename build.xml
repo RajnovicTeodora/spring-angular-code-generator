@@ -42,5 +42,9 @@
 		<copy todir="${MAGICDRAW_HOME}/plugins/myplugin/templates">
 			<fileset dir="resources/templates" includes="*.ftl"/>
 		</copy>
+		<copy todir="${MAGICDRAW_HOME}/plugins/myplugin/templates/frontend">
+			<fileset dir="resources/templates/frontend" includes="*.ftl" />
+		</copy>
+
 	</target>
 </project>

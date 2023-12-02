@@ -8,7 +8,8 @@ import java.util.List;
 public class FMClass extends FMType {	
 	
 	private String visibility;
-	private FMEntity entity = null;
+	//private FMEntity entity = null;
+	private String tableName;
 
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
@@ -68,6 +69,10 @@ public class FMClass extends FMType {
 	public List<FMReferenceProperty> getReferenceProperties() {
 		return referenceProperties;
 	}
+	
+	public void addReferenceProperty(FMReferenceProperty property){
+		referenceProperties.add(property);		
+	}
 
 	public void setReferenceProperties(List<FMReferenceProperty> referenceProperties) {
 		this.referenceProperties = referenceProperties;
@@ -76,17 +81,21 @@ public class FMClass extends FMType {
 	public List<FMPrimitiveProperty> getPrimitiveProperties() {
 		return primitiveProperties;
 	}
+	
+	public void addPrimitiveProperty(FMPrimitiveProperty property){
+		primitiveProperties.add(property);		
+	}
 
 	public void setPrimitiveProperties(List<FMPrimitiveProperty> primitiveProperties) {
 		this.primitiveProperties = primitiveProperties;
 	}
 
-	public FMEntity getEntity() {
-		return entity;
+	public String getTableName() {
+		return tableName;
 	}
 
-	public void setEntity(FMEntity entity) {
-		this.entity = entity;
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}	
 
 	

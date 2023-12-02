@@ -11,15 +11,24 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FMPrimitiveProperty extends FMBackendProperty {
 
-	public FMPrimitiveProperty(String name, String type, String visibility,
-			int lower, int upper) {
+	public FMPrimitiveProperty(String name, String type, String visibility, int lower, int upper) {
 		super(name, type, visibility, lower, upper);
 
 	}
 
+	public FMPrimitiveProperty(String name, String type, String visibility, int lower, int upper, String columnName,
+			GenerationType generationType, Integer length, Boolean isId, Boolean unique) {
+		super(name, type, visibility, lower, upper);
+		this.columnName = columnName;
+		this.generationType = generationType;
+		this.length = length;
+		this.isId = isId;
+		this.unique = unique;
+	}
+
 	private String columnName;
 	private GenerationType generationType;
-	private int lenght;
+	private Integer length;
 	private Boolean isId;
 	private Boolean unique;
 }

@@ -23,9 +23,12 @@ import myplugin.generator.BasicGenerator;
 import myplugin.generator.ControllerGenerator;
 import myplugin.generator.DataMapperGenerator;
 import myplugin.generator.EJBGenerator;
+import myplugin.generator.EnumGenerator;
+import myplugin.generator.FEModelGenerator;
 import myplugin.generator.PomGenerator;
 import myplugin.generator.RepositoryGenerator;
 import myplugin.generator.ServiceGenerator;
+import myplugin.generator.SpringApplicationGenerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 import myplugin.generator.options.ProjectOptions;
@@ -54,12 +57,14 @@ class GenerateAction extends MDAction {
 		try {
 			analyzer.prepareModel();
 			this.generateComponent(root, PACKAGE_PREFIX + ".repository", "RepositoryGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX + ".service", "ServiceGenerator");
+			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
+			// "ServiceGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "SpringApplicationGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
 			this.generateComponent(root, "", "PomGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
-
-
+			this.generateComponent(root, PACKAGE_PREFIX + ".enum", "EnumGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
 
@@ -122,8 +127,15 @@ class GenerateAction extends MDAction {
 				break;
 			case "ServiceGenerator":
 				generator = new ServiceGenerator(generatorOptions);
+			case "SpringApplicationGenerator":
+				generator = new SpringApplicationGenerator(generatorOptions);
 				break;
-			// TODO... Add other generators	
+			case "EnumGenerator":
+				generator = new EnumGenerator(generatorOptions);
+				break;
+			case "FEModelGenerator":
+				generator = new FEModelGenerator(generatorOptions);
+				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);
 		}
