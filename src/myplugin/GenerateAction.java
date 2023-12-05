@@ -24,7 +24,16 @@ import myplugin.generator.ControllerGenerator;
 import myplugin.generator.DataMapperGenerator;
 import myplugin.generator.EJBGenerator;
 import myplugin.generator.EnumGenerator;
+import myplugin.generator.FEDeleteHtmlGenerator;
+import myplugin.generator.FEDeleteScssGenerator;
+import myplugin.generator.FEDeleteTsGenerator;
+import myplugin.generator.FEEditHtmlGenerator;
+import myplugin.generator.FEEditScssGenerator;
+import myplugin.generator.FEEditTsGenerator;
 import myplugin.generator.FEModelGenerator;
+import myplugin.generator.FEViewHtmlGenerator;
+import myplugin.generator.FEViewScssGenerator;
+import myplugin.generator.FEViewTsGenerator;
 import myplugin.generator.PomGenerator;
 import myplugin.generator.RepositoryGenerator;
 import myplugin.generator.ServiceGenerator;
@@ -65,6 +74,17 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX + ".enum", "EnumGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteHTML");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteSCSS");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteTS");
+
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorViewHTML");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorViewSCSS");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorViewTS");
+
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditHTML");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditCSS");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
 
@@ -135,6 +155,34 @@ class GenerateAction extends MDAction {
 				break;
 			case "FEModelGenerator":
 				generator = new FEModelGenerator(generatorOptions);
+				break;
+			case "FEGeneratorDeleteHTML":
+				generator = new FEDeleteHtmlGenerator(generatorOptions);
+				break;
+			case "FEGeneratorDeleteSCSS":
+				generator = new FEDeleteScssGenerator(generatorOptions);
+				break;
+			case "FEGeneratorDeleteTS":
+				generator = new FEDeleteTsGenerator(generatorOptions);
+				break;
+			case "FEGeneratorViewHTML":
+				generator = new FEViewHtmlGenerator(generatorOptions);
+				break;
+			case "FEGeneratorViewSCSS":
+				generator = new FEViewScssGenerator(generatorOptions);
+				break;
+			case "FEGeneratorViewTS":
+				generator = new FEViewTsGenerator(generatorOptions);
+				break;
+
+			case "FEGeneratorEditHTML":
+				generator = new FEEditHtmlGenerator(generatorOptions);
+				break;
+			case "FEGeneratorEditSCSS":
+				generator = new FEEditScssGenerator(generatorOptions);
+				break;
+			case "FEGeneratorEditTS":
+				generator = new FEEditTsGenerator(generatorOptions);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);

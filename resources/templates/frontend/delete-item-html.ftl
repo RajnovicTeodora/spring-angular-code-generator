@@ -11,7 +11,7 @@
 
 
 
-<form *ngIf="${class.getName()}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()}.id!)">
+<form *ngIf="${class.getName()}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
     <div class="modal-header">
       <h4 class="modal-title">Confirmation of deleting</h4>
   
@@ -20,10 +20,10 @@
   
     <div class="modal-body">
       <p>
-      <#if hasIdProperty>
-        Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()}.${idName}}}
+      <#if hasIdProperty != "">
+        Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.${idName}}}
       <#else>
-      Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()}.id }}
+      Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.id }}
       </#if>
       </p>
     </div>
