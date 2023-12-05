@@ -20,7 +20,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	private static final String FRONTED_APP = GEN_DIR + "/frontend";
 	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
 	private static final String MODELS_DIR = "src.app.shared.model";
-
+	private static final String APP_DIR = "src.app";
+	
 	public void init() {
 		JOptionPane.showMessageDialog(null, "My Plugin init");
 
@@ -39,7 +40,9 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "SpringApplication.java",
 				MAIN_JAVA);
 		generateOption("FEModelGenerator", "model", MODELS_DIR, "{0}.ts", FRONTED_APP);
-
+		
+		//FrontEnd Application  
+		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {
