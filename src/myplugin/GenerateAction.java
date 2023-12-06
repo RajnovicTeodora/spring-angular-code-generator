@@ -34,10 +34,12 @@ import myplugin.generator.FEModelGenerator;
 import myplugin.generator.FEViewHtmlGenerator;
 import myplugin.generator.FEViewScssGenerator;
 import myplugin.generator.FEViewTsGenerator;
+import myplugin.generator.FERoutingGenerator;
 import myplugin.generator.PomGenerator;
 import myplugin.generator.RepositoryGenerator;
 import myplugin.generator.ServiceGenerator;
 import myplugin.generator.SpringApplicationGenerator;
+import myplugin.generator.StaticFilesGenerator;
 import myplugin.generator.fmmodel.FMModel;
 import myplugin.generator.options.GeneratorOptions;
 import myplugin.generator.options.ProjectOptions;
@@ -47,7 +49,8 @@ import myplugin.generator.options.ProjectOptions;
 class GenerateAction extends MDAction {
 
 	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
-
+	private static final String STATIC_FILE_PREFIX = "resources/static";
+	
 	public GenerateAction(String name) {
 		super("", name, null, null);
 	}
@@ -73,6 +76,8 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, "", "PomGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX + ".enum", "EnumGenerator");
+			
+			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteHTML");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteSCSS");
@@ -87,8 +92,11 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FERoutingGenerator");
 
-			/** @ToDo: Also call other generators */
+
+			// Static files
+			this.generateStaticFiles(STATIC_FILE_PREFIX);
 
 			// TODO folder name
 			JOptionPane.showMessageDialog(null,
@@ -98,6 +106,13 @@ class GenerateAction extends MDAction {
 		} catch (AnalyzeException | IOException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+
+	private void generateStaticFiles(String staticFilePrefix) throws IOException {
+		
+		StaticFilesGenerator.copy(staticFilePrefix + "/frontend", "C:/generated/frontend");
+		StaticFilesGenerator.copy(staticFilePrefix + "/frontend/src", "C:/generated/frontend/src");
+		StaticFilesGenerator.copy(staticFilePrefix + "/frontend/src/app", "C:/generated/frontend/src/app");
 	}
 
 	private void exportToXml() {
@@ -183,6 +198,8 @@ class GenerateAction extends MDAction {
 				break;
 			case "FEGeneratorEditTS":
 				generator = new FEEditTsGenerator(generatorOptions);
+			case "FERoutingGenerator":
+				generator = new FERoutingGenerator(generatorOptions);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);

@@ -22,6 +22,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	private static final String MODELS_DIR = "src.app.shared.model";
 	private static final String DELETE_DIR = "src.app.";
 
+	private static final String APP_DIR = "src.app";
+	
 	public void init() {
 		JOptionPane.showMessageDialog(null, "My Plugin init");
 
@@ -52,6 +54,9 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
 		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
 
+		
+		//FrontEnd Application  
+		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {
