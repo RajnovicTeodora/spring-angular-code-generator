@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ${class.name}Service } from '../../shared/service/${class.name?uncap_first}/${class.name?uncap_first}.service';
 <#list properties as property>
-    <#if property.class.name == "FMReferenceProperty">
+    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
         import { ${property.name} } from '../../shared/model/${property.name?uncap_first}';
     </#if>
 </#list>
@@ -18,7 +18,7 @@ import { ${class.name}Service } from '../../shared/service/${class.name?uncap_fi
 export class ${class.name}ViewComponent implements OnInit{
   isEditMode: boolean = false;
   <#list properties as property>
-    <#if property.class.name == "FMReferenceProperty">
+    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
         ${property.name?uncap_first}: ${property.name}[] = [];
     <#else>
         //doradi po tipovima

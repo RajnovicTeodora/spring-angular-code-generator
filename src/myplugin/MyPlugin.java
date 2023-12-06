@@ -20,6 +20,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	private static final String FRONTED_APP = GEN_DIR + "/frontend";
 	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
 	private static final String MODELS_DIR = "src.app.shared.model";
+	private static final String DELETE_DIR = "src.app.";
+
 	private static final String APP_DIR = "src.app";
 	
 	public void init() {
@@ -40,6 +42,18 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "SpringApplication.java",
 				MAIN_JAVA);
 		generateOption("FEModelGenerator", "model", MODELS_DIR, "{0}.ts", FRONTED_APP);
+		generateOption("FEGeneratorDeleteHTML", "frontend/delete-item-html", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.html", FRONTED_APP);
+		generateOption("FEGeneratorDeleteSCSS", "frontend/delete-item-scss", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorDeleteTS", "frontend/delete-item-ts", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.ts", FRONTED_APP);
+		
+		generateOption("FEGeneratorViewHTML", "frontend/view-item-html", DELETE_DIR, "{0}/{0}-view/{0}-view.component.html", FRONTED_APP);
+		generateOption("FEGeneratorViewSCSS", "frontend/view-item-scss", DELETE_DIR, "{0}/{0}-view/{0}-view.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorViewTS", "frontend/view-item-ts", DELETE_DIR, "{0}/{0}-view/{0}-view.component.ts", FRONTED_APP);
+
+		generateOption("FEGeneratorEditHTML", "frontend/edit-item-html", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.html", FRONTED_APP);
+		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
+
 		
 		//FrontEnd Application  
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);

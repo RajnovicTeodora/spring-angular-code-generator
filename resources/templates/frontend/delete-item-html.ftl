@@ -1,17 +1,19 @@
 <#assign hasIdProperty = "">
 <#list properties as property>
  <#--<#if property.type == "String" && property.type == "boolean" && property.type == "byte" && property.type == "int" && property.type == "float" && property.type == "Integer" && property.type == "double" && property.type == "short" && property.type == "long" && property.type == "char">-->
- <#if property.class.name == "FMPrimitiveProperty">
-  <#if property.generationType.getName() == "IDENTITY">
-    <#assign hasIdProperty = true>
-    <#assign idName = property.name>
-  </#if>
+ <#if property.class.name == "myplugin.generator.fmmodel.FMPrimitiveProperty">
+  <#if property.generationType?exists && property.generationType != null>
+    <#if property.generationType.getName() == "IDENTITY">
+      <#assign hasIdProperty = true>
+      <#assign idName = property.name>
+    </#if>
+    </#if>
   </#if>
 </#list>
 
 
 
-<form *ngIf="${class.getName()}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()}.id!)">
+<form *ngIf="${class.getName()}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
     <div class="modal-header">
       <h4 class="modal-title">Confirmation of deleting</h4>
   
@@ -20,10 +22,10 @@
   
     <div class="modal-body">
       <p>
-      <#if hasIdProperty>
-        Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()}.${idName}}}
+      <#if hasIdProperty != "">
+        Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.${idName}}}
       <#else>
-      Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()}.id }}
+      Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.id }}
       </#if>
       </p>
     </div>
