@@ -83,7 +83,7 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorViewTS");
 
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditHTML");
-			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditCSS");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditSCSS");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");

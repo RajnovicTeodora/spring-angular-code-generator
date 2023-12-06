@@ -1,36 +1,28 @@
 <div>
 
     <#list properties as property>
-    <#if property.class.name == "FMPrimitiveProperty">
+    <#if property.class.name == "myplugin.generator.fmmodel.FMPrimitiveProperty">
         <div class="form-group">
             <label for="${property.name}">Name:</label>
         <div><label type="text" id="${property.name}">&nbsp;&nbsp;{{${property.name}}}</label></div>
         </div>
 
     <#else>
-        <#if property.class.name == "FMReferenceProperty">
+        <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
 
             <div class="form-group">
                 <label>${property.name}:</label>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                     <#list property.properties as p>
-                        <#if p.class.name == "FMPrimitiveProperty">
-                            <th scope="col" ><span>${p.name}</span> </th>
-                        </#if>
-                    </#list>
+                    <td *ngFor="let property of getObjectProperties(${property.name})">{{ property }}</td>
                     <th scope="col"></th>
 
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let ${property.name} of ${property.name}s;" data-cy="entityTable">
-                    <#list property.properties as p>
-                        <#if p.class.name == "FMPrimitiveProperty">
-                             <td>{{ ${property.name}.${p.name} }}</td>
-                        </#if>
-                    </#list>
+                    <td *ngFor="let property of getObjectProperties(${property.name})">{{ ${property.name}[property] }}</td>
                         <!-- <a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a> -->
                     </tr>
                     </tbody>
