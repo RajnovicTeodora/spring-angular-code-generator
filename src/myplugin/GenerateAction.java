@@ -93,7 +93,8 @@ class GenerateAction extends MDAction {
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FERoutingGenerator");
-
+			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutComponentGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutHtmlGenerator");
 
 			// Static files
 			this.generateStaticFiles(STATIC_FILE_PREFIX);
@@ -199,6 +200,12 @@ class GenerateAction extends MDAction {
 			case "FEGeneratorEditTS":
 				generator = new FEEditTsGenerator(generatorOptions);
 			case "FERoutingGenerator":
+				generator = new FERoutingGenerator(generatorOptions);
+				break;
+			case "FELayoutComponentGenerator":
+				generator = new FERoutingGenerator(generatorOptions);
+				break;
+			case "FELayoutHtmlGenerator":
 				generator = new FERoutingGenerator(generatorOptions);
 				break;
 			default:

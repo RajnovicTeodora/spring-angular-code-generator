@@ -57,6 +57,8 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		
 		//FrontEnd Application  
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
+		generateOption("FELayoutComponentGenerator", "frontend/layout.component.ts", APP_DIR + ".layout", "layout.component.ts", FRONTED_APP);
+		generateOption("FELayoutHtmlGenerator", "frontend/layout.component.html", APP_DIR + ".layout", "layout.component.html", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {
