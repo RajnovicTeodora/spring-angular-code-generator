@@ -19,9 +19,6 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	private static final String MAIN_JAVA = GEN_DIR + "/backend/src/main/java";
 	private static final String FRONTED_APP = GEN_DIR + "/frontend";
 	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
-	private static final String MODELS_DIR = "src.app.shared.model";
-	private static final String DELETE_DIR = "src.app.";
-
 	private static final String APP_DIR = "src.app";
 	
 	public void init() {
@@ -31,34 +28,36 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		ActionsConfiguratorsManager manager = ActionsConfiguratorsManager.getInstance();
 		manager.addMainMenuConfigurator(new MainMenuConfigurator(getSubmenuActions()));
 
-		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX + ".controller", "{0}Controller.java",
-				MAIN_JAVA);
+		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX + ".controller", "{0}Controller.java", MAIN_JAVA);
 		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX + ".mapper", "{0}Mapper.java", MAIN_JAVA);
 		generateOption("EnumGenerator", "enum", PACKAGE_PREFIX + ".enum", "{0}.java", MAIN_JAVA);
 		generateOption("PomGenerator", "pomxml", "", "pom.xml", GEN_DIR);
 		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX + ".service", "{0}Service.java", MAIN_JAVA);
-		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX + ".repository", "{0}Repository.java",
-				MAIN_JAVA);
-		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "SpringApplication.java",
-				MAIN_JAVA);
-		generateOption("FEModelGenerator", "model", MODELS_DIR, "{0}.ts", FRONTED_APP);
-		generateOption("FEGeneratorDeleteHTML", "frontend/delete-item-html", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.html", FRONTED_APP);
-		generateOption("FEGeneratorDeleteSCSS", "frontend/delete-item-scss", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.scss", FRONTED_APP);
-		generateOption("FEGeneratorDeleteTS", "frontend/delete-item-ts", DELETE_DIR, "{0}/{0}-delete/{0}-delete.component.ts", FRONTED_APP);
-		
-		generateOption("FEGeneratorViewHTML", "frontend/view-item-html", DELETE_DIR, "{0}/{0}-view/{0}-view.component.html", FRONTED_APP);
-		generateOption("FEGeneratorViewSCSS", "frontend/view-item-scss", DELETE_DIR, "{0}/{0}-view/{0}-view.component.scss", FRONTED_APP);
-		generateOption("FEGeneratorViewTS", "frontend/view-item-ts", DELETE_DIR, "{0}/{0}-view/{0}-view.component.ts", FRONTED_APP);
-
-		generateOption("FEGeneratorEditHTML", "frontend/edit-item-html", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.html", FRONTED_APP);
-		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
-		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", DELETE_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
-
+		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX + ".repository", "{0}Repository.java", MAIN_JAVA);
+		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "SpringApplication.java", MAIN_JAVA);
 		
 		//FrontEnd Application  
+		generateOption("FEModelGenerator", "model", APP_DIR + ".shared.model", "{0}.ts", FRONTED_APP);
+		generateOption("FEGeneratorDeleteHTML", "frontend/delete-item-html", APP_DIR, "{0}/{0}-delete/{0}-delete.component.html", FRONTED_APP);
+		generateOption("FEGeneratorDeleteSCSS", "frontend/delete-item-scss", APP_DIR, "{0}/{0}-delete/{0}-delete.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorDeleteTS", "frontend/delete-item-ts", APP_DIR, "{0}/{0}-delete/{0}-delete.component.ts", FRONTED_APP);
+		
+		generateOption("FEGeneratorViewHTML", "frontend/view-item-html", APP_DIR, "{0}/{0}-view/{0}-view.component.html", FRONTED_APP);
+		generateOption("FEGeneratorViewSCSS", "frontend/view-item-scss", APP_DIR, "{0}/{0}-view/{0}-view.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorViewTS", "frontend/view-item-ts", APP_DIR, "{0}/{0}-view/{0}-view.component.ts", FRONTED_APP);
+
+		generateOption("FEGeneratorEditHTML", "frontend/edit-item-html", APP_DIR, "{0}/{0}-edit/{0}-edit.component.html", FRONTED_APP);
+		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", APP_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
+		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", APP_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
+
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 		generateOption("FELayoutComponentGenerator", "frontend/layout.component.ts", APP_DIR + ".layout", "layout.component.ts", FRONTED_APP);
 		generateOption("FELayoutHtmlGenerator", "frontend/layout.component.html", APP_DIR + ".layout", "layout.component.html", FRONTED_APP);
+		
+		generateOption("FEItemsHtmlGenerator", "frontend/items/items-html", APP_DIR, "{0}/{0}s/{0}s.component.html", FRONTED_APP);
+		generateOption("FEItemsScssGenerator", "frontend/items/items-scss", APP_DIR, "{0}/{0}s/{0}s.component.scss", FRONTED_APP);
+		generateOption("FEItemsTsGenerator", "frontend/items/items-ts", APP_DIR, "{0}/{0}s/{0}s.component.ts", FRONTED_APP);
+		generateOption("FEItemsSpecTsGenerator", "frontend/items/items-spec-ts", APP_DIR, "{0}/{0}s/{0}s.component.spec.ts", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {

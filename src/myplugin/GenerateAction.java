@@ -30,6 +30,10 @@ import myplugin.generator.FEDeleteTsGenerator;
 import myplugin.generator.FEEditHtmlGenerator;
 import myplugin.generator.FEEditScssGenerator;
 import myplugin.generator.FEEditTsGenerator;
+import myplugin.generator.FEItemsHtmlGenerator;
+import myplugin.generator.FEItemsScssGenerator;
+import myplugin.generator.FEItemsSpecTsGenerator;
+import myplugin.generator.FEItemsTsGenerator;
 import myplugin.generator.FEModelGenerator;
 import myplugin.generator.FEViewHtmlGenerator;
 import myplugin.generator.FEViewScssGenerator;
@@ -90,18 +94,22 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditHTML");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditSCSS");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
-			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
-			// "ServiceGenerator");
+
 			this.generateComponent(root, PACKAGE_PREFIX, "FERoutingGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutComponentGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutHtmlGenerator");
+			
+			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsHtmlGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsScssGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsTsGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsSpecTsGenerator");
 
 			// Static files
 			this.generateStaticFiles(STATIC_FILE_PREFIX);
 
 			// TODO folder name
 			JOptionPane.showMessageDialog(null,
-					"Code is successfully generated! Generated code is in folder: SOME_FOLDER");
+					"Code is successfully generated! Generated code is in folder: c:/generated");
 //			+ go.getOutputPath() + ", package: " + go.getFilePackage());
 			exportToXml();
 		} catch (AnalyzeException | IOException e) {
@@ -207,6 +215,18 @@ class GenerateAction extends MDAction {
 				break;
 			case "FELayoutHtmlGenerator":
 				generator = new FERoutingGenerator(generatorOptions);
+				break;
+			case "FEItemsHtmlGenerator":
+				generator = new FEItemsHtmlGenerator(generatorOptions);
+				break;
+			case "FEItemsScssGenerator":
+				generator = new FEItemsScssGenerator(generatorOptions);
+				break;
+			case "FEItemsTsGenerator":
+				generator = new FEItemsTsGenerator(generatorOptions);
+				break;
+			case "FEItemsSpecTsGenerator":
+				generator = new FEItemsSpecTsGenerator(generatorOptions);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);
