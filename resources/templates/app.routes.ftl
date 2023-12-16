@@ -5,7 +5,7 @@ export const routes: Routes = [
     {
     	path: '${class.name?uncap_first}',
     	loadChildren: () =>
-    		import('./${class.name?uncap_first}/${class.name?uncap_first}.routes').then((r) => r.${class.name?upper_case}_ROUTES),
+    		import('./${class.name}/${class.name}.routes').then((r) => r.${class.name?upper_case}_ROUTES),
     },
 </#list>
 ];

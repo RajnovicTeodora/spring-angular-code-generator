@@ -5,7 +5,7 @@ import { ${property.name?cap_first} } from "./${property.name}";
 </#list>
 
 export class ${class.name} {
-  <#list properties as property>
+  <#list primitiveProperties as property>
     <#if property.upper == 1>
       ${property.name}: ${property.type};
     <#elseif property.upper == -1>
@@ -17,8 +17,19 @@ export class ${class.name} {
     </#if>
   </#list>
 
+  <#list referenceProperties as property>
+    <#if property.upper == 1>
+      ${property.name}: ${property.type};
+    </#if>
+  </#list>
+
   constructor(
-    <#list properties as property>
+    <#list referenceProperties as property>
+      <#if property.upper == 1>
+        ${property.name}: ${property.type},
+      </#if>
+    </#list>
+    <#list primitiveProperties as property>
       <#if property.upper == 1>
         ${property.name}: ${property.type},
       <#elseif property.upper == -1>
@@ -30,7 +41,12 @@ export class ${class.name} {
       </#if>
     </#list>
   ) {
-    <#list properties as property>
+    <#list referenceProperties as property>
+      <#if property.upper == 1>
+      this.${property.name} = ${property.name};
+      </#if>
+    </#list>
+    <#list primitiveProperties as property>
       this.${property.name} = ${property.name};
     </#list>
   }
