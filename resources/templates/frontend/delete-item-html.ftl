@@ -13,7 +13,7 @@
 
 
 
-<form *ngIf="${class.getName()}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
+<form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
     <div class="modal-header">
       <h4 class="modal-title">Confirmation of deleting</h4>
   

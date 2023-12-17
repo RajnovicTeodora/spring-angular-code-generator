@@ -11,8 +11,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ${class.name?cap_first}Service } from '../../shared/service/${class.name?lower_case}/${class.name?lower_case}.service';
-import { ${class.name?cap_first} } from '../../shared/model/${class.name?lower_case}';
+import { ${class.name?cap_first}Service } from '../../shared/service/${class.name}/${class.name}.service';
+import { ${class.name?cap_first} } from '../../shared/model/${class.name}';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAdd, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './${class.name?lower_case}s.component.html',
   styleUrl: './${class.name?lower_case}s.component.scss',
 })
-export class ${class.name?cap_first}tsComponent implements OnInit {
+export class ${class.name?cap_first}sComponent implements OnInit {
   ${class.name?lower_case}s: ${class.name?cap_first}[] = [];
   faInfo = faInfo;
   faAdd = faAdd;

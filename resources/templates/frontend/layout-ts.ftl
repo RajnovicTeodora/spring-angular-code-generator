@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { StudentsComponent } from '../../student/students/students.component';
-import { GradesComponent } from '../../grade/grades/grades.component';
+<#list classes as class>
+import { ${class.name?cap_first}sComponent } from '../${class.name?cap_first}/${class.name?cap_first}s/${class.name?cap_first}s.component';
+</#list>  
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -14,12 +15,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     RouterLink,
     NgbNavModule,
 <#list classes as class>
-    ${class.name?cap_first}Component,
+    ${class.name?cap_first}sComponent,
 </#list>    
   ],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {}
-
-];

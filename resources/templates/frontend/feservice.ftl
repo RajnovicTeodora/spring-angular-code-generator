@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ${class.name} } from '../../model/${class.name?uncap_first}';
-import { Observable, firstValueFrom } from 'rxjs';
+import { ${class.name} } from '../../model/${class.name}';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class ${class.name}Service {
 
   findById(id: number): Promise<${class.name}> {
     return firstValueFrom(
-      this.httpClient.get<${class.name}>(`http://localhost:4000/api/${class.name?uncap_first}/${id}`)
+      this.httpClient.get<${class.name}>(`http://localhost:4000/api/${class.name?uncap_first}/${'${'}id}`)
     );
   }
 
@@ -34,7 +34,7 @@ export class ${class.name}Service {
   update(id: number, ${class.name?uncap_first}: ${class.name}): Promise<HttpResponse<${class.name}>> {
     return firstValueFrom(
       this.httpClient.put<${class.name}>(
-        `http://localhost:4000/api/${class.name?uncap_first}/${id}`,
+        `http://localhost:4000/api/${class.name?uncap_first}/${'${'}id}`,
         ${class.name?uncap_first},
         { observe: 'response' }
       )
@@ -42,6 +42,6 @@ export class ${class.name}Service {
   }
 
   delete(id: number) {
-    this.httpClient.delete(`http://localhost:4000/api/${class.name?uncap_first}/${id}`);
+    this.httpClient.delete(`http://localhost:4000/api/${class.name?uncap_first}/${'${'}id}`);
   }
 }

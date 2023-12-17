@@ -30,18 +30,17 @@ import myplugin.generator.FEDeleteTsGenerator;
 import myplugin.generator.FEEditHtmlGenerator;
 import myplugin.generator.FEEditScssGenerator;
 import myplugin.generator.FEEditTsGenerator;
-import myplugin.generator.FEItemsHtmlGenerator;
 import myplugin.generator.FEItemsScssGenerator;
 import myplugin.generator.FEItemsSpecTsGenerator;
 import myplugin.generator.FEItemsTsGenerator;
 import myplugin.generator.FELayoutComponentGenerator;
 import myplugin.generator.FELayoutHtmlGenerator;
 import myplugin.generator.FEModelGenerator;
-import myplugin.generator.FEModelRouteGenerator;
 import myplugin.generator.FEViewHtmlGenerator;
 import myplugin.generator.FEViewScssGenerator;
 import myplugin.generator.FEViewTsGenerator;
 import myplugin.generator.FERoutingGenerator;
+import myplugin.generator.FEServiceGenerator;
 import myplugin.generator.FETsGenerator;
 import myplugin.generator.PomGenerator;
 import myplugin.generator.RepositoryGenerator;
@@ -87,6 +86,7 @@ class GenerateAction extends MDAction {
 			
 			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "FEServiceGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteHTML");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteSCSS");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorDeleteTS");
@@ -235,6 +235,9 @@ class GenerateAction extends MDAction {
 				break;
 			case "FETsGenerator":
 				generator = new FETsGenerator(generatorOptions);
+				break;
+			case "FEServiceGenerator":
+				generator = new FEServiceGenerator(generatorOptions);
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown generator " + generatorName);

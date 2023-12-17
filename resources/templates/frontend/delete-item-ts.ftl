@@ -1,7 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ${class.getName()} } from '../../shared/model/${class.getName()?uncap_first}';
+import { ${class.getName()} } from '../../shared/model/${class.getName()}';
 
 @Component({
   selector: 'app-${class.getName()?uncap_first}-delete',

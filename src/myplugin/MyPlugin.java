@@ -52,6 +52,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 		generateOption("FETsGenerator", "frontend/model-route", APP_DIR, "{0}/{0}.routes.ts", FRONTED_APP);
+		generateOption("FEServiceGenerator", "frontend/feservice", APP_DIR + ".shared.service", "{0}/{0}.service.ts", FRONTED_APP);
 		generateOption("FELayoutComponentGenerator", "frontend/layout-ts", APP_DIR + ".layout", "layout.component.ts", FRONTED_APP);
 		generateOption("FELayoutHtmlGenerator", "frontend/layout-html", APP_DIR + ".layout", "layout.component.html", FRONTED_APP);
 		

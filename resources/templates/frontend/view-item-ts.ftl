@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { ${class.name}Service } from '../../shared/service/${class.name?uncap_first}/${class.name?uncap_first}.service';
+import { ${class.name}Service } from '../../shared/service/${class.name}/${class.name}.service';
 <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        import { ${property.name} } from '../../shared/model/${property.name?uncap_first}';
+import { ${property.name?cap_first} } from '../../shared/model/${property.name}';
     </#if>
 </#list>
 
@@ -19,7 +19,7 @@ export class ${class.name}ViewComponent implements OnInit{
   isEditMode: boolean = false;
   <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        ${property.name?uncap_first}: ${property.name}[] = [];
+        ${property.name?uncap_first}: ${property.name?cap_first}[] = [];
     <#else>
         //doradi po tipovima
         name: string = "";
