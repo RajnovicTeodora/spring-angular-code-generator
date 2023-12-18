@@ -1,3 +1,4 @@
+
 package myplugin;
 
 import java.awt.event.ActionEvent;
@@ -93,16 +94,16 @@ class GenerateAction extends MDAction {
 
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditHTML");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditSCSS");
-			this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
+			//this.generateComponent(root, PACKAGE_PREFIX, "FEGeneratorEditTS");
 
 			this.generateComponent(root, PACKAGE_PREFIX, "FERoutingGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutComponentGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FELayoutHtmlGenerator");
 			
 			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsHtmlGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsScssGenerator");
+			//this.generateComponent(root, PACKAGE_PREFIX, "FEItemsScssGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsTsGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsSpecTsGenerator");
+			//this.generateComponent(root, PACKAGE_PREFIX, "FEItemsSpecTsGenerator");
 
 			// Static files
 			this.generateStaticFiles(STATIC_FILE_PREFIX);

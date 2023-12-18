@@ -48,16 +48,16 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 		generateOption("FEGeneratorEditHTML", "frontend/edit-item-html", APP_DIR, "{0}/{0}-edit/{0}-edit.component.html", FRONTED_APP);
 		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", APP_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
-		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", APP_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
+		//generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", APP_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
 
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 		generateOption("FELayoutComponentGenerator", "frontend/layout.component.ts", APP_DIR + ".layout", "layout.component.ts", FRONTED_APP);
 		generateOption("FELayoutHtmlGenerator", "frontend/layout.component.html", APP_DIR + ".layout", "layout.component.html", FRONTED_APP);
 		
 		generateOption("FEItemsHtmlGenerator", "frontend/items/items-html", APP_DIR, "{0}/{0}s/{0}s.component.html", FRONTED_APP);
-		generateOption("FEItemsScssGenerator", "frontend/items/items-scss", APP_DIR, "{0}/{0}s/{0}s.component.scss", FRONTED_APP);
+		//generateOption("FEItemsScssGenerator", "frontend/items/items-scss", APP_DIR, "{0}/{0}s/{0}s.component.scss", FRONTED_APP);
 		generateOption("FEItemsTsGenerator", "frontend/items/items-ts", APP_DIR, "{0}/{0}s/{0}s.component.ts", FRONTED_APP);
-		generateOption("FEItemsSpecTsGenerator", "frontend/items/items-spec-ts", APP_DIR, "{0}/{0}s/{0}s.component.spec.ts", FRONTED_APP);
+		//generateOption("FEItemsSpecTsGenerator", "frontend/items/items-spec-ts", APP_DIR, "{0}/{0}s/{0}s.component.spec.ts", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {
