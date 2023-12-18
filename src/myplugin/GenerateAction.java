@@ -75,14 +75,14 @@ class GenerateAction extends MDAction {
 
 		try {
 			analyzer.prepareModel();
-			this.generateComponent(root, PACKAGE_PREFIX + ".repository", "RepositoryGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "RepositoryGenerator");
 			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
 			// "ServiceGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "SpringApplicationGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX + ".controller", "ControllerGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "ControllerGenerator");
 			this.generateComponent(root, "", "PomGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX + ".mapper", "DataMapperGenerator");
-			this.generateComponent(root, PACKAGE_PREFIX + ".enum", "EnumGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "EnumGenerator");
 			
 			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
