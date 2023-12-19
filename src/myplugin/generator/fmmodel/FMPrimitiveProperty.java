@@ -31,4 +31,46 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	private Integer length;
 	public Boolean isId;
 	private Boolean unique;
+	
+	public String getColumnName() {
+		return columnName;
+	}
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+
+	public GenerationType getGenerationType() {
+		return generationType;
+	}
+
+	public void setGenerationType(GenerationType generationType) {
+		this.generationType = generationType;
+	}
+
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+
+	public Boolean getIsId() {
+		return isId;
+	}
+
+	public void setIsId(Boolean isId) {
+		this.isId = isId;
+	}
+
+	public Boolean getUnique() {
+		return unique;
+	}
+
+	public void setUnique(Boolean unique) {
+		this.unique = unique;
+	}
+	
+	
 }
