@@ -12,6 +12,7 @@ import ${class.typePackage}.model.${class.getName()};
   <#if property.generationType.getName() == "IDENTITY">
     <#assign hasIdProperty = true>
     <#assign idType = property.type>
+    ${idType}
   </#if>
   </#if>
   </#if>

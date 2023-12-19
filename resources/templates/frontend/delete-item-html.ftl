@@ -1,20 +1,22 @@
 <#assign hasIdProperty = "">
-<#list properties as property>
- <#--<#if property.type == "String" && property.type == "boolean" && property.type == "byte" && property.type == "int" && property.type == "float" && property.type == "Integer" && property.type == "double" && property.type == "short" && property.type == "long" && property.type == "char">-->
- <#if property.class.name == "myplugin.generator.fmmodel.FMPrimitiveProperty">
+<#assign idName = "">
+<#list primitiveProperties as property>
   <#if property.generationType?exists && property.generationType != null>
-    <#if property.generationType.getName() == "IDENTITY">
+    <#if property.isId>
       <#assign hasIdProperty = true>
       <#assign idName = property.name>
-    </#if>
     </#if>
   </#if>
 </#list>
 
 
-
+<#if idName!="">
+<form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.${idName}!)">
+<#else>
 <form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
-    <div class="modal-header">
+ 
+</#if> 
+      <div class="modal-header">
       <h4 class="modal-title">Confirmation of deleting</h4>
   
       <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>

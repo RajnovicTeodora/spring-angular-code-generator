@@ -4,9 +4,15 @@ import { ActivatedRoute } from '@angular/router';
 import { ${class.name}Service } from '../../shared/service/${class.name}/${class.name}.service';
 <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-import { ${property.name?cap_first} } from '../../shared/model/${property.name}';
+  	<#if property.upper == -1>
+  	import { ${property.type?cap_first} } from '../../shared/model/${property.type?cap_first}';
+  	<#else>
+import { ${property.name?cap_first} } from '../../shared/model/${property.name?cap_first}';
+    </#if>
     </#if>
 </#list>
+import { ${class.name?cap_first}} from '../../shared/model/${class.name?cap_first}';
+
 
 @Component({
   selector: 'app-${class.name?uncap_first}-view',
@@ -19,13 +25,16 @@ export class ${class.name}ViewComponent implements OnInit{
   isEditMode: boolean = false;
   <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        ${property.name?uncap_first}: ${property.name?cap_first}[] = [];
+    	<#if property.upper == -1>
+        ${property.name?uncap_first}: any = null
+        <#else>
+        ${property.name?uncap_first}: ${property.name?cap_first}[] = []
+        </#if>
     <#else>
-        //doradi po tipovima
-        name: string = "";
-        age: string = "";
+        ${property.name?uncap_first}: any = ""; //todo po tipovima
     </#if>
   </#list>
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -52,6 +61,9 @@ export class ${class.name}ViewComponent implements OnInit{
         this.${property.name?uncap_first} = ${class.name?uncap_first}Data.${property.name?uncap_first};
       </#list>
     });
+  }
+   public getObjectProperties(${class.name?uncap_first}: ${class.name?cap_first}): any {
+    return Object.keys(${class.name?uncap_first});
   }
 
 }

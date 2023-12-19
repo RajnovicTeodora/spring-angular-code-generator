@@ -27,8 +27,8 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	}
 
 	private String columnName;
-	private GenerationType generationType;
+	public GenerationType generationType;
 	private Integer length;
-	private Boolean isId;
+	public Boolean isId;
 	private Boolean unique;
 }

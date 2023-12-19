@@ -7,8 +7,8 @@ import { ${class.getName()} } from '../../shared/model/${class.getName()}';
   selector: 'app-${class.getName()?uncap_first}-delete',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './${class.getName()?uncap_first}-delete.component.html',
-  styleUrl: './${class.getName()?uncap_first}-delete.component.scss'
+  templateUrl: './${class.getName()}-delete.component.html',
+  styleUrl: './${class.getName()}-delete.component.scss'
 })
 export class ${class.getName()}DeleteComponent implements OnInit{
   ${class.getName()?uncap_first}?: ${class.getName()};
@@ -23,7 +23,7 @@ export class ${class.getName()}DeleteComponent implements OnInit{
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: any): void {
     // this.${class.getName()?uncap_first}Service.delete(id).subscribe(() => {
     //   this.activeModal.close('deleted');
     // });
