@@ -1,11 +1,7 @@
-<#assign identifierType = 'number'>
+<#assign identifierType = 'string'>
 <#list primitiveProperties as property>
   <#if property.isId>
-    <#if property.type == "String" || property.type == "char">
-    	${property.name}
-    	${property.type}
-      <#assign identifierType = 'string'>
-    </#if>
+    <#assign identifierType = property.frontType>
   </#if>
 </#list>
 
