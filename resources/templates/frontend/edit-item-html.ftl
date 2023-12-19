@@ -30,14 +30,14 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                    <td *ngFor="let property of getObjectProperties(${property.name})">{{ property }}</td>
+                    <td *ngFor="let property of getObjectProperties${property.name?cap_first}(${property.name}[0])">{{ property }}</td>
                     <th scope="col"></th>
 
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let ${property.name} of ${property.name}s;" data-cy="entityTable">
-                     <td *ngFor="let property of getObjectProperties(${property.name})">{{ ${property.name}[property] }}</td>
+                    <tr *ngFor="let one${property.type} of ${property.name};" data-cy="entityTable">
+                     <td *ngFor="let property of getObjectProperties${property.name?cap_first}(one${property.type})">{{ ${property.name}[property] }}</td>
                         <!-- <a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a> -->
                     </tr>
                     </tbody>

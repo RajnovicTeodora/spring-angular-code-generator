@@ -11,6 +11,7 @@ import ${class.typePackage}.model.${class.getName()};
   <#if property.isId>
     <#assign hasIdProperty = true>
     <#assign idType = property.type>
+    ${idType}
   </#if>
   </#if>
 </#list>

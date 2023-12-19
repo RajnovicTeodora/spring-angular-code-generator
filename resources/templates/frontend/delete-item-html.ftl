@@ -5,9 +5,13 @@
     <#assign idName = prim.name>
   </#if>
 </#list>
-
+<#if hasIdProperty>
+<form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.${idName}!)">
+<#else>
 <form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
-    <div class="modal-header">
+
+</#if>
+      <div class="modal-header">
       <h4 class="modal-title">Confirmation of deleting</h4>
   
       <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>

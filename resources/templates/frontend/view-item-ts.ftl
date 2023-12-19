@@ -4,26 +4,43 @@ import { ActivatedRoute } from '@angular/router';
 import { ${class.name}Service } from '../../shared/service/${class.name}/${class.name}.service';
 <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-import { ${property.name?cap_first} } from '../../shared/model/${property.name}';
+  	<#if property.upper == -1>
+  	import { ${property.type?cap_first} } from '../../shared/model/${property.type?cap_first}';
+  	<#else>
+import { ${property.name?cap_first} } from '../../shared/model/${property.name?cap_first}';
+    </#if>
     </#if>
 </#list>
+import { ${class.name?cap_first}} from '../../shared/model/${class.name?cap_first}';
+
 
 @Component({
   selector: 'app-${class.name?uncap_first}-view',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './${class.name?uncap_first}-view.component.html',
-  styleUrl: './${class.name?uncap_first}-view.component.scss'
+  templateUrl: './${class.name?cap_first}-view.component.html',
+  styleUrl: './${class.name?cap_first}-view.component.scss'
 })
 export class ${class.name}ViewComponent implements OnInit{
   isEditMode: boolean = false;
-  <#list properties as property>
-    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        ${property.name?uncap_first}: ${property.name?cap_first}[] = [];
+  <#list referenceProperties as property>
+    
+    	<#if property.upper == -1>
+        ${property.name?uncap_first}: any = null
+        <#else>
+        ${property.name?uncap_first}: ${property.name?cap_first}[] = []
+        </#if>
+    
+  </#list>
+  <#list primitiveProperties as property>
+      <#if property.type == "int" || property.type == "long" || property.type == "Integer" || property.type == "float" || property.type == "Double" || property.type == "double" >
+    	${property.name?uncap_first}: number = 0; 
+    <#elseif property.type == "String" || property.type == "char">
+    	${property.name?uncap_first}: string = ""; 
+    <#elseif property.type == "boolean">
+    	${property.name?uncap_first}: boolean = false; 
     <#else>
-        //doradi po tipovima
-        name: string = "";
-        age: string = "";
+    	${property.name?uncap_first}: ${property.type?uncap_first} = ""; 
     </#if>
   </#list>
 
@@ -52,6 +69,9 @@ export class ${class.name}ViewComponent implements OnInit{
         this.${property.name?uncap_first} = ${class.name?uncap_first}Data.${property.name?uncap_first};
       </#list>
     });
+  }
+   public getObjectProperties(${class.name?uncap_first}: ${class.name?cap_first}): any {
+    return Object.keys(${class.name?uncap_first});
   }
 
 }

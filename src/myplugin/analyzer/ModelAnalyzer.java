@@ -238,6 +238,7 @@ public class ModelAnalyzer {
 		FMReferenceProperty refProp = new FMReferenceProperty(property.getAttName(), property.getTypeName(),
 				p.getVisibility().toString(), property.getLower(), property.getUpper(), mappedBy, cascadeType,
 				fetchType);
+		//JOptionPane.showMessageDialog(null, "ovde je");
 		return refProp;
 	}
 
