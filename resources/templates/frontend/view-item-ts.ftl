@@ -18,23 +18,31 @@ import { ${class.name?cap_first}} from '../../shared/model/${class.name?cap_firs
   selector: 'app-${class.name?uncap_first}-view',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './${class.name?uncap_first}-view.component.html',
-  styleUrl: './${class.name?uncap_first}-view.component.scss'
+  templateUrl: './${class.name?cap_first}-view.component.html',
+  styleUrl: './${class.name?cap_first}-view.component.scss'
 })
 export class ${class.name}ViewComponent implements OnInit{
   isEditMode: boolean = false;
-  <#list properties as property>
-    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
+  <#list referenceProperties as property>
+    
     	<#if property.upper == -1>
         ${property.name?uncap_first}: any = null
         <#else>
         ${property.name?uncap_first}: ${property.name?cap_first}[] = []
         </#if>
+    
+  </#list>
+  <#list primitiveProperties as property>
+      <#if property.type == "int" || property.type == "long" || property.type == "Integer" || property.type == "float" || property.type == "Double" || property.type == "double" >
+    	${property.name?uncap_first}: number = 0; 
+    <#elseif property.type == "String" || property.type == "char">
+    	${property.name?uncap_first}: string = ""; 
+    <#elseif property.type == "boolean">
+    	${property.name?uncap_first}: boolean = false; 
     <#else>
-        ${property.name?uncap_first}: any = ""; //todo po tipovima
+    	${property.name?uncap_first}: ${property.type?uncap_first} = ""; 
     </#if>
   </#list>
-  
 
   constructor(
     private route: ActivatedRoute,

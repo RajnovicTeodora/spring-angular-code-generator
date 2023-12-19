@@ -7,27 +7,39 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ${class.getName()}Service } from '../../shared/service/${class.getName()?uncap_first}/${class.getName()?uncap_first}.service';
+import { ${class.getName()?cap_first}Service } from '../../shared/service/${class.getName()?cap_first}/${class.getName()?cap_first}.service';
 <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        import { ${property.name} } from '../../shared/model/${property.name?uncap_first}';
+    <#if property.upper == 1>
+import { ${property.getName()?cap_first} } from '../../shared/model/${property.getName()?cap_first}';
+<#elseif property.upper == -1>
+import { ${property.type?cap_first} } from '../../shared/model/${property.type?cap_first}';
+</#if>
     </#if>
 </#list>
+ import { ${class.getName()?cap_first} } from '../../shared/model/${class.getName()}';
 
 @Component({
   selector: 'app-${class.getName()?uncap_first}-edit',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './${class.getName()?uncap_first}-edit.component.html',
-  styleUrl: './${class.getName()?uncap_first}-edit.component.scss',
+  templateUrl: './${class.getName()?cap_first}-edit.component.html',
+  styleUrl: './${class.getName()?cap_first}-edit.component.scss',
 })
 export class ${class.getName()}EditComponent implements OnInit {
   ${class.getName()?uncap_first}Form!: FormGroup;
   isEditMode: boolean = false;
-    <#list properties as property>
-    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
-        ${property.name?uncap_first}: ${property.name}[] = [];
+    <#list primitiveProperties as property>
+    <#if property.type == "int" || property.type == "Integer" || property.type == "float" || property.type == "Double" || property.type == "double" >
+        ${property.name?uncap_first}: number = 0;
+    <#elseif property.type == "String" || property.type == "char">
+    	${property.name?uncap_first}: string = "";
+    <#elseif property.type == "boolean">
+    	${property.name?uncap_first}: boolean = false;
     </#if>
+  </#list>
+   <#list referenceProperties as property>
+        ${property.name?uncap_first}: ${property.type?cap_first}[] = [];
   </#list>
 
   constructor(
@@ -56,21 +68,21 @@ export class ${class.getName()}EditComponent implements OnInit {
       if (params['id']) {
         const ${class.getName()?uncap_first}Id = params['id'];
         this.isEditMode = true;
-        this.fetchStudentData(studentId);
+       // this.fetchStudentData(studentId);
       }
     });
   }
 
   private fetch${class.getName()}Data(${class.getName()?uncap_first}Id: number): void {
     this.service.findById(${class.getName()?uncap_first}Id).then((${class.getName()?uncap_first}Data: any) => {
-      this.grades = ${class.getName()?uncap_first}Data.grades;
-      this.${class.getName()?uncap_first}Form.patchValue({
+      //this.grades = ${class.getName()?uncap_first}Data.grades;
+     // this.${class.getName()?uncap_first}Form.patchValue({
         <#list properties as property>
             <#if property.class.name != "myplugin.generator.fmmodel.FMReferenceProperty">
-                this.fetch${class.getName()}Data.(${property.name});
+               // this.fetch${class.getName()}Data.(${property.name});
             </#if>
         </#list>
-      });
+    //  });
     });
   }
 
@@ -90,4 +102,9 @@ export class ${class.getName()}EditComponent implements OnInit {
       }
     }
   }
+  <#list referenceProperties as property>
+   public getObjectProperties${property.name?cap_first}(${property.name?uncap_first}: ${property.type?cap_first}): any {
+    return Object.keys(${property.name?uncap_first});
+  }
+  </#list>
 }

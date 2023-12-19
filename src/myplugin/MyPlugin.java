@@ -48,7 +48,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 		generateOption("FEGeneratorEditHTML", "frontend/edit-item-html", APP_DIR, "{0}/{0}-edit/{0}-edit.component.html", FRONTED_APP);
 		generateOption("FEGeneratorEditSCSS", "frontend/edit-item-scss", APP_DIR, "{0}/{0}-edit/{0}-edit.component.scss", FRONTED_APP);
-		//generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", APP_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
+		generateOption("FEGeneratorEditTS", "frontend/edit-item-ts", APP_DIR, "{0}/{0}-edit/{0}-edit.component.ts", FRONTED_APP);
 
 		generateOption("FERoutingGenerator", "app.routes", APP_DIR, "app.routes.ts", FRONTED_APP);
 		generateOption("FETsGenerator", "frontend/model-route", APP_DIR, "{0}/{0}.routes.ts", FRONTED_APP);

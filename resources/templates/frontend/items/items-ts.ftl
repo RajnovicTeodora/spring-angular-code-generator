@@ -1,7 +1,9 @@
 <#assign identifierType = 'number'>
 <#list primitiveProperties as property>
   <#if property.isId>
-    <#if property.type == "String" || property.type != "char">
+    <#if property.type == "String" || property.type == "char">
+    	${property.name}
+    	${property.type}
       <#assign identifierType = 'string'>
     </#if>
   </#if>
@@ -14,15 +16,15 @@ import { ${class.name?cap_first} } from '../../shared/model/${class.name}';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAdd, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { ${class.name?cap_first}DeleteComponent } from '../${class.name?lower_case}-delete/${class.name?lower_case}-delete.component';
+import { ${class.name?cap_first}DeleteComponent } from '../${class.name?cap_first}-delete/${class.name?cap_first}-delete.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-${class.name?lower_case}s',
   standalone: true,
   imports: [CommonModule, FontAwesomeModule],
-  templateUrl: './${class.name?lower_case}s.component.html',
-  styleUrl: './${class.name?lower_case}s.component.scss',
+  templateUrl: './${class.name?cap_first}s.component.html',
+  styleUrl: './${class.name?cap_first}s.component.scss',
 })
 export class ${class.name?cap_first}sComponent implements OnInit {
   ${class.name?lower_case}s: ${class.name?cap_first}[] = [];
