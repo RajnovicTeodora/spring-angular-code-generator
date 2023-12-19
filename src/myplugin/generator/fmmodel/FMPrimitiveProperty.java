@@ -17,13 +17,14 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	}
 
 	public FMPrimitiveProperty(String name, String type, String visibility, int lower, int upper, String columnName,
-			GenerationType generationType, Integer length, Boolean isId, Boolean unique) {
+			GenerationType generationType, Integer length, Boolean isId, Boolean unique, String frontType) {
 		super(name, type, visibility, lower, upper);
 		this.columnName = columnName;
 		this.generationType = generationType;
 		this.length = length;
 		this.isId = isId;
 		this.unique = unique;
+		this.frontType = frontType;
 	}
 
 	private String columnName;
@@ -31,6 +32,7 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	private Integer length;
 	private Boolean isId;
 	private Boolean unique;
+	private String frontType;
 	
 	public String getColumnName() {
 		return columnName;
@@ -70,6 +72,14 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 
 	public void setUnique(Boolean unique) {
 		this.unique = unique;
+	}
+
+	public String getFrontType() {
+		return frontType;
+	}
+
+	public void setFrontType(String frontType) {
+		this.frontType = frontType;
 	}
 	
 	

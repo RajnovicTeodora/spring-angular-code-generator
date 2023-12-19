@@ -164,6 +164,7 @@ public class ModelAnalyzer {
 		Boolean unique = null;
 		Integer length = null;
 		GenerationType generationType = null;
+		String frontType = null;
 		if (primitiveStereotype != null) {
 			List<Property> tags = primitiveStereotype.getOwnedAttribute();
 			for (int j = 0; j < tags.size(); ++j) {
@@ -185,6 +186,9 @@ public class ModelAnalyzer {
 						EnumerationLiteralImpl genType = (EnumerationLiteralImpl) value.get(0);
 						generationType = GenerationType.valueOf(genType.getName());
 						break;
+					case "frontType":
+						frontType = (String) value.get(0);
+						break;
 					}
 				}
 			}
@@ -195,7 +199,7 @@ public class ModelAnalyzer {
 		}
 		FMPrimitiveProperty primProp = new FMPrimitiveProperty(prop.getAttName(), prop.getTypeName(),
 				p.getVisibility().toString(), p.getLower(), p.getUpper(), columnName, generationType, length, isId,
-				unique);
+				unique, frontType);
 
 		return primProp;
 	}
