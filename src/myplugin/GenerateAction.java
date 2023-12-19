@@ -31,7 +31,6 @@ import myplugin.generator.FEEditHtmlGenerator;
 import myplugin.generator.FEEditScssGenerator;
 import myplugin.generator.FEEditTsGenerator;
 import myplugin.generator.FEItemsScssGenerator;
-import myplugin.generator.FEItemsSpecTsGenerator;
 import myplugin.generator.FEItemsTsGenerator;
 import myplugin.generator.FELayoutComponentGenerator;
 import myplugin.generator.FELayoutHtmlGenerator;
@@ -107,7 +106,6 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsHtmlGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsScssGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEItemsTsGenerator");
-			//this.generateComponent(root, PACKAGE_PREFIX, "FEItemsSpecTsGenerator");
 	
 			// Static files
 			this.generateStaticFiles(STATIC_FILE_PREFIX);
@@ -229,9 +227,6 @@ class GenerateAction extends MDAction {
 				break;
 			case "FEItemsTsGenerator":
 				generator = new FEItemsTsGenerator(generatorOptions);
-				break;
-			case "FEItemsSpecTsGenerator":
-				generator = new FEItemsSpecTsGenerator(generatorOptions);
 				break;
 			case "FETsGenerator":
 				generator = new FETsGenerator(generatorOptions);

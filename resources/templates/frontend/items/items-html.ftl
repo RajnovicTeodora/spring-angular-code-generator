@@ -1,9 +1,7 @@
 <#assign identifier = 'id'>
-<#list primitiveProperties as property>
-  <#if property.generationType?exists && property.generationType != null>
-    <#if property.isId>
-      <#assign identifier = property.name>
-    </#if>
+<#list primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign identifier = prim.name>
   </#if>
 </#list>
 <button (click)="create()" class="btn btn-primary">

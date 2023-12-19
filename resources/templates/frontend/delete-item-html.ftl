@@ -1,17 +1,10 @@
-<#assign hasIdProperty = "">
-<#list properties as property>
- <#--<#if property.type == "String" && property.type == "boolean" && property.type == "byte" && property.type == "int" && property.type == "float" && property.type == "Integer" && property.type == "double" && property.type == "short" && property.type == "long" && property.type == "char">-->
- <#if property.class.name == "myplugin.generator.fmmodel.FMPrimitiveProperty">
-  <#if property.generationType?exists && property.generationType != null>
-    <#if property.generationType.getName() == "IDENTITY">
-      <#assign hasIdProperty = true>
-      <#assign idName = property.name>
-    </#if>
-    </#if>
+<#assign hasIdProperty = false>
+<#list primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasIdProperty = true>
+    <#assign idName = prim.name>
   </#if>
 </#list>
-
-
 
 <form *ngIf="${class.name?uncap_first}" name="deleteForm" (ngSubmit)="confirmDelete(${class.getName()?uncap_first}.id!)">
     <div class="modal-header">
@@ -22,7 +15,7 @@
   
     <div class="modal-body">
       <p>
-      <#if hasIdProperty != "">
+      <#if hasIdProperty>
         Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.${idName}}}
       <#else>
       Are you sure you want to delete this ${class.getName()}?  {{ ${class.getName()?uncap_first}.id }}

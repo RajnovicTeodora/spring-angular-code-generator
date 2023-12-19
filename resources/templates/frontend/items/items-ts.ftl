@@ -1,10 +1,8 @@
 <#assign identifierType = 'number'>
 <#list primitiveProperties as property>
-  <#if property.generationType?exists && property.generationType != null>
-    <#if property.isId>
-      <#if property.type == "String" || property.type != "char">
-        <#assign identifierType = 'string'>
-      </#if>
+  <#if property.isId>
+    <#if property.type == "String" || property.type != "char">
+      <#assign identifierType = 'string'>
     </#if>
   </#if>
 </#list>

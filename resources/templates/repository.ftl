@@ -8,11 +8,9 @@ import ${class.typePackage}.model.${class.getName()};
 <#list properties as property>
  <#--<#if property.type == "String" && property.type == "boolean" && property.type == "byte" && property.type == "int" && property.type == "float" && property.type == "Integer" && property.type == "double" && property.type == "short" && property.type == "long" && property.type == "char">-->
  <#if property.class.name == "myplugin.generator.fmmodel.FMPrimitiveProperty">
-  <#if property.generationType?exists && property.generationType != null>
-  <#if property.generationType.getName() == "IDENTITY">
+  <#if property.isId>
     <#assign hasIdProperty = true>
     <#assign idType = property.type>
-  </#if>
   </#if>
   </#if>
 </#list>

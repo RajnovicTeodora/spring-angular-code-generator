@@ -59,7 +59,6 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("FEItemsHtmlGenerator", "frontend/items/items-html", APP_DIR, "{0}/{0}s/{0}s.component.html", FRONTED_APP);
 		generateOption("FEItemsScssGenerator", "frontend/items/items-scss", APP_DIR, "{0}/{0}s/{0}s.component.scss", FRONTED_APP);
 		generateOption("FEItemsTsGenerator", "frontend/items/items-ts", APP_DIR, "{0}/{0}s/{0}s.component.ts", FRONTED_APP);
-		//generateOption("FEItemsSpecTsGenerator", "frontend/items/items-spec-ts", APP_DIR, "{0}/{0}s/{0}s.component.spec.ts", FRONTED_APP);
 	}
 
 	private NMAction[] getSubmenuActions() {

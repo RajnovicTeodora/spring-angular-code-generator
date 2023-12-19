@@ -190,8 +190,9 @@ public class ModelAnalyzer {
 			}
 		}
 		Boolean isId = false;
-		if (generationType != null)
+		if (generationType != null && generationType.toString().contains("IDENTITY")) {
 			isId = generationType.name().equalsIgnoreCase("IDENTITY");
+		}
 		FMPrimitiveProperty primProp = new FMPrimitiveProperty(prop.getAttName(), prop.getTypeName(),
 				p.getVisibility().toString(), p.getLower(), p.getUpper(), columnName, generationType, length, isId,
 				unique);
