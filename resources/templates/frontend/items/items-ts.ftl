@@ -1,4 +1,4 @@
-<#assign identifierType = 'string'>
+<#assign identifierType = 'number'>
 <#list primitiveProperties as property>
   <#if property.isId>
     <#assign identifierType = property.frontType>
