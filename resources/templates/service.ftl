@@ -1,7 +1,15 @@
-package ${class.typePackage}.service;
+<#assign hasIdProperty = false>
+<#assign idName = "">
+<#list class.primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasIdProperty = true>
+    <#assign idName = prim.name>
+  </#if>
+</#list>
+package ${class.getTypePackage()}.service;
 
-import ${class.typePackage}.repository.${class.getName()}Repository;
-import ${class.typePackage}.model.${class.getName()};
+import ${class.getTypePackage()}.repository.${class.getName()}Repository;
+import ${class.getTypePackage()}.model.${class.getName()};
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,32 +18,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-<#list class.properties as property>
- <#if property.type != "String" && property.type != "boolean" && property.type != "byte" && property.type != "int" && property.type != "float" && property.type != "Integer" && property.type != "double" && property.type != "short" && property.type != "long" && property.type != "char">
-import ${class.typePackage}.service.${property.type}Service;
-</#if>
+	   
+<#list class.referenceProperties as property>
+ import ${class.getTypePackage()}.service.${property.type}Service;
 </#list>
-
 @Service
 @Transactional
 public class ${class.name}Service  {
 
-    private final ${class.name}Repository ${class.name?uncap_first}Repository; 
+    private final ${class.name}Repository ${class.name?uncap_first}Repository;
+    <#list class.referenceProperties as property>
+     private final ${property.type}Service ${property.type?uncap_first}Service;
+		</#list> 
 
     public ${class.name}Service(
-        ${class.name}Repository ${class.name?uncap_first}Repository,
-        <#list class.properties as property>
- <#if property.type != "String" || property.type != "boolean" || property.type != "int" || property.type != "double" || property.type != "short" || property.type != "long" || property.type != "char">
-        ${property.type}Service ${property.name?uncap_first}Service,
-	</#if>        
-</#list>
+        ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Service ${property.name?uncap_first}Service   
+		</#list>
     ) {
         this.${class.name?uncap_first}Repository = ${class.name?uncap_first}Repository;
-        <#list class.properties as property>
- <#if property.type != "String" || property.type != "boolean" || property.type != "int" || property.type != "double" || property.type != "short" || property.type != "long" || property.type != "char">
-        this.${property.name?uncap_first}Service = ${property.name?uncap_first}Service;
-</#if>        
+        <#list class.referenceProperties as property>
+         this.${property.type?uncap_first}Service = ${property.name?uncap_first}Service;      
 </#list>
     }
     
@@ -50,7 +52,12 @@ public class ${class.name}Service  {
 	 public Optional<${class.name}> partialUpdate(${class.name} ${class.name?uncap_first}) {
 
         return ${class.name?uncap_first}Repository
-            .findById(${class.name?uncap_first}.getId())
+        
+        	<#if hasIdProperty>
+        	.findById(${class.name?uncap_first}.get${idName?cap_first}())
+        	<#else>
+        	.findById(${class.name?uncap_first}.getId())
+        	</#if>
             .map(existing${class.name} -> {
             
             <#list class.properties as property>

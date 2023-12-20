@@ -75,14 +75,13 @@ class GenerateAction extends MDAction {
 		try {
 			analyzer.prepareModel();
 			this.generateComponent(root, PACKAGE_PREFIX, "RepositoryGenerator");
-			// this.generateComponent(root, PACKAGE_PREFIX + ".service",
-			// "ServiceGenerator");
+			 
 			this.generateComponent(root, PACKAGE_PREFIX, "SpringApplicationGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ControllerGenerator");
 			this.generateComponent(root, "", "PomGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "EnumGenerator");
-			
+			this.generateComponent(root, PACKAGE_PREFIX, "ServiceGenerator");
 			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEServiceGenerator");
@@ -174,6 +173,8 @@ class GenerateAction extends MDAction {
 				break;
 			case "ServiceGenerator":
 				generator = new ServiceGenerator(generatorOptions);
+				JOptionPane.showMessageDialog(null, "stiglo");
+				break;
 			case "SpringApplicationGenerator":
 				generator = new SpringApplicationGenerator(generatorOptions);
 				break;
