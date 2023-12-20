@@ -38,6 +38,7 @@ import myplugin.generator.FEModelGenerator;
 import myplugin.generator.FEViewHtmlGenerator;
 import myplugin.generator.FEViewScssGenerator;
 import myplugin.generator.FEViewTsGenerator;
+import myplugin.generator.ModelGenerator;
 import myplugin.generator.FERoutingGenerator;
 import myplugin.generator.FEServiceGenerator;
 import myplugin.generator.FETsGenerator;
@@ -82,6 +83,8 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "EnumGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ServiceGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "ModelGenerator");
+
 			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "FEServiceGenerator");
@@ -179,6 +182,9 @@ class GenerateAction extends MDAction {
 				break;
 			case "EnumGenerator":
 				generator = new EnumGenerator(generatorOptions);
+				break;
+			case "ModelGenerator":
+				generator = new ModelGenerator(generatorOptions);
 				break;
 			case "FEModelGenerator":
 				generator = new FEModelGenerator(generatorOptions);

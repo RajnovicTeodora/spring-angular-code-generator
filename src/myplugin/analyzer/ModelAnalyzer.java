@@ -194,8 +194,8 @@ public class ModelAnalyzer {
 			}
 		}
 		Boolean isId = false;
-		if (generationType != null && generationType.toString().contains("IDENTITY")) {
-			isId = generationType.name().equalsIgnoreCase("IDENTITY");
+		if (generationType != null) {
+			isId = true;
 		}
 		FMPrimitiveProperty primProp = new FMPrimitiveProperty(prop.getAttName(), prop.getTypeName(),
 				p.getVisibility().toString(), p.getLower(), p.getUpper(), columnName, generationType, length, isId,
@@ -235,10 +235,19 @@ public class ModelAnalyzer {
 		}
 
 		int oppositeEnd = p.getOpposite().getUpper();
+		String card = null;
+		if(property.getUpper() == -1 && oppositeEnd == -1) {
+			card = "ManyToMany";
+		}else if(property.getUpper() == -1 && oppositeEnd == 1) {
+			card = "OneToMany";
+		}else if(property.getUpper() == 1 && oppositeEnd == -1) {
+			card = "ManyToOne";
+		}else {
+			card = "OneToOne";
+		}
 		FMReferenceProperty refProp = new FMReferenceProperty(property.getAttName(), property.getTypeName(),
 				p.getVisibility().toString(), property.getLower(), property.getUpper(), mappedBy, cascadeType,
-				fetchType);
-		//JOptionPane.showMessageDialog(null, "ovde je");
+				fetchType, card);
 		return refProp;
 	}
 

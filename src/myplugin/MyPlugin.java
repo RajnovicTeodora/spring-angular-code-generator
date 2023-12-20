@@ -35,6 +35,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX, "service/{0}Service.java", MAIN_JAVA);
 		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX, "repository/{0}Repository.java", MAIN_JAVA);
 		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "BackendApplication.java", MAIN_JAVA);
+		generateOption("ModelGenerator", "back.model", PACKAGE_PREFIX, "model/{0}.java", MAIN_JAVA);
 		
 		//FrontEnd Application  
 		generateOption("FEModelGenerator", "model", APP_DIR + ".shared.model", "{0}.ts", FRONTED_APP);
