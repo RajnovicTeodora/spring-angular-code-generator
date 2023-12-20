@@ -1,3 +1,9 @@
+<#assign hasId = false>
+<#list primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasId = true>
+  </#if>
+</#list>
 package ${class.typePackage}.model;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +19,7 @@ import ${class.typePackage}.enumeration.*;
 @Entity
 <#if (class.tableName)??>@Table(name = "${class.tableName}")</#if>
 ${class.visibility} class ${class.name}{
-
+	<#if hasId == false>${'\n'}    @Id${'\n'}    @GeneratedValue${'\n'}    private long id;${'\n'} </#if>
 	<#list primitiveProperties as property>
 	<#if (property)??>  
 	<#if (property.generationType)?? && property.isId == true>
@@ -89,8 +95,8 @@ ${class.visibility} class ${class.name}{
 	
 	</#list>
 	
-	public ${class.name}() {}
-	
+	public ${class.name}() {}	
+	<#if hasId == false>${'\n'}    public long getId(){${'\n'}        return id;${'\n'}    }${'\n'}  	public void setId(long id){${'\n'}       	this.id = id;${'\n'}    }${'\n'}</#if>
 	<#list primitiveProperties as property>
 	<#if (property)?? && (property.type)?? && (property.name)??>
   	public <#if (property.type)=="date">Date<#elseif (property.generationType)?? && property.generationType.name() == "UUID">UUID<#else>${property.type}</#if> get${property.name?cap_first}(){
