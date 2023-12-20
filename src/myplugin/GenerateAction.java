@@ -173,7 +173,6 @@ class GenerateAction extends MDAction {
 				break;
 			case "ServiceGenerator":
 				generator = new ServiceGenerator(generatorOptions);
-				JOptionPane.showMessageDialog(null, "stiglo");
 				break;
 			case "SpringApplicationGenerator":
 				generator = new SpringApplicationGenerator(generatorOptions);
