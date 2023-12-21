@@ -42,7 +42,7 @@ public class ${class.name}Service  {
     }
     
     public ${class.name} save(${class.name} ${class.name?uncap_first}) {
-        return ${class.name?uncap_first}Repository.save(${class.name});
+        return ${class.name?uncap_first}Repository.save(${class.name?uncap_first});
     }
 
     public ${class.name} update(${class.name} ${class.name?uncap_first}) {
@@ -72,8 +72,8 @@ public class ${class.name}Service  {
     }
 
     @Transactional(readOnly = true)
-    public Page<${class.name}> findAll(Pageable pageable) {
-        return ${class.name?uncap_first}Repository.findAll(pageable);
+    public List<${class.name}> findAll() {
+        return ${class.name?uncap_first}Repository.findAll();
     }
 
 
@@ -84,9 +84,10 @@ public class ${class.name}Service  {
 
                    
 public void delete(Long id) {
-    ${class.name} existing${class.name} = ${class.name?uncap_first}Repository.findById(id);
+    Optional<${class.name}> maybe${class.name} = ${class.name?uncap_first}Repository.findById(id);
 
-    if (existing${class.name} != null) {
+    if (existing${class.name}.isPresent()) {
+		${class.name} existing${class.name} = maybe${class.name}.get();
         existing${class.name}.setDeleted(true);
         <#list class.properties as property>
             if(!existing${class.name}.get${property.name?cap_first}().getClass().isPrimitive()){
