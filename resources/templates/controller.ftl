@@ -1,3 +1,13 @@
+<#assign hasIdProperty = false>
+<#assign idName = "">
+<#assign idType = "">
+<#list class.primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasIdProperty = true>
+    <#assign idName = prim.name>
+    <#assign idType = prim.type>
+  </#if>
+</#list>
 package ${class.typePackage}.controller;
 
 import ${class.typePackage}.model.${class.name};
@@ -25,15 +35,15 @@ public class ${class.name}Controller {
 		return ResponseEntity.ok().body(${class.name?uncap_first}Service.findAll());
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<${class.name}> findOne(@PathVariable Long id) {
-		Optional<${class.name}> ${class.name?uncap_first} = ${class.name?uncap_first}Service.findOne(id);
+	@GetMapping("/{<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>}")
+	public ResponseEntity<${class.name}> findOne(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>) {
+		Optional<${class.name}> ${class.name?uncap_first} = ${class.name?uncap_first}Service.findOne(<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>);
 		return ${class.name?uncap_first}.map(ResponseEntity::ok).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
 	@PostMapping
 	public ResponseEntity<${class.name}> post(@RequestBody ${class.name} ${class.name?uncap_first}) {
-		if (${class.name?uncap_first}.getId() != 0) {
+		if (${class.name?uncap_first}.get<#if hasIdProperty>${idName?cap_first}<#else>Id</#if>() != 0) {
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -44,9 +54,9 @@ public class ${class.name}Controller {
 		return new ResponseEntity<>(${class.name?uncap_first}, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<${class.name}> put(@PathVariable Long id, @RequestBody ${class.name} ${class.name?uncap_first}) {
-		if (id != ${class.name?uncap_first}.getId()) {
+	@PutMapping("/{<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>}")
+	public ResponseEntity<${class.name}> put(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>, @RequestBody ${class.name} ${class.name?uncap_first}) {
+		if (<#if hasIdProperty>${idName?uncap_first}<#else>id</#if> != ${class.name?uncap_first}.get<#if hasIdProperty>${idName?cap_first}<#else>Id</#if>()) {
 			return ResponseEntity.badRequest().build();
 		}
 	
@@ -54,9 +64,9 @@ public class ${class.name}Controller {
 		return ${class.name?uncap_first} != null ? ResponseEntity.ok(${class.name?uncap_first}) : ResponseEntity.badRequest().build();
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteOne(@PathVariable Long id) {
-		${class.name?uncap_first}Service.delete(id);
+	@DeleteMapping("/{<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>}")
+	public ResponseEntity<?> deleteOne(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>) {
+		${class.name?uncap_first}Service.delete(<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>);
 		return ResponseEntity.noContent().build();
 	}
 
