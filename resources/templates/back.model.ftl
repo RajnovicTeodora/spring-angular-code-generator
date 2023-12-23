@@ -1,10 +1,14 @@
 <#assign hasId = false>
+<#assign hasEnum = false>
 <#list primitiveProperties as prim>
   <#if prim.isId>
     <#assign hasId = true>
   </#if>
+  <#if prim.isEnum>
+    <#assign hasEnum = true>
+  </#if>
 </#list>
-package ${class.typePackage}.model;
+<#lt>package ${class.typePackage}.model;
 
 import lombok.AllArgsConstructor;
 
@@ -13,7 +17,7 @@ import java.util.List;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.Date;
-import ${class.typePackage}.enumeration.*;
+<#if hasEnum == true>import ${class.typePackage}.enumeration.*;</#if>
 
 @AllArgsConstructor
 @Entity
@@ -58,8 +62,7 @@ ${class.visibility} class ${class.name}{
 			   <#if (property.lower)?? && (property.lower)== 0>
 			       <#lt>, nullable = true<#rt>
 			   </#if>
-			   <#lt>)
-		   </#if>
+			   <#lt>)</#if><#if property.isEnum == true>${'\n'}	@Enumerated(EnumType.STRING)</#if>
 	</#if>
 	${property.visibility} <#if (property.type)=="date">Date<#elseif (property.generationType)?? && property.generationType.name() == "UUID">UUID<#else>${property.type}</#if> ${property.name?uncap_first};
 	
