@@ -25,6 +25,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.impl.EnumerationImpl;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.impl.EnumerationLiteralImpl;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 
@@ -159,6 +160,10 @@ public class ModelAnalyzer {
 
 	private FMPrimitiveProperty getPrimitivePropertyData(Property p, Class cl) throws AnalyzeException {
 		PropertyMapper prop = getPropertyData(p, cl);
+		Boolean isEnum = false;
+		if ((prop.getAttType().getClassType().getSimpleName()).equalsIgnoreCase("Enumeration")) {
+			isEnum = true;
+		}
 		Stereotype primitiveStereotype = StereotypesHelper.getAppliedStereotypeByString(p, "PrimitiveProperty");
 		String columnName = null;
 		Boolean unique = null;
@@ -199,7 +204,7 @@ public class ModelAnalyzer {
 		}
 		FMPrimitiveProperty primProp = new FMPrimitiveProperty(prop.getAttName(), prop.getTypeName(),
 				p.getVisibility().toString(), p.getLower(), p.getUpper(), columnName, generationType, length, isId,
-				unique, frontType);
+				unique, frontType, isEnum);
 
 		return primProp;
 	}
@@ -236,13 +241,13 @@ public class ModelAnalyzer {
 
 		int oppositeEnd = p.getOpposite().getUpper();
 		String card = null;
-		if(property.getUpper() == -1 && oppositeEnd == -1) {
+		if (property.getUpper() == -1 && oppositeEnd == -1) {
 			card = "ManyToMany";
-		}else if(property.getUpper() == -1 && oppositeEnd == 1) {
+		} else if (property.getUpper() == -1 && oppositeEnd == 1) {
 			card = "OneToMany";
-		}else if(property.getUpper() == 1 && oppositeEnd == -1) {
+		} else if (property.getUpper() == 1 && oppositeEnd == -1) {
 			card = "ManyToOne";
-		}else {
+		} else {
 			card = "OneToOne";
 		}
 		FMReferenceProperty refProp = new FMReferenceProperty(property.getAttName(), property.getTypeName(),
@@ -254,7 +259,7 @@ public class ModelAnalyzer {
 	private FMEnumeration getEnumerationData(Enumeration enumeration, String packageName) throws AnalyzeException {
 		FMEnumeration fmEnum = new FMEnumeration(enumeration.getName(), packageName);
 		List<EnumerationLiteral> list = enumeration.getOwnedLiteral();
-		for (int i = 0; i < list.size() - 1; i++) {
+		for (int i = 0; i <= list.size() - 1; i++) {
 			EnumerationLiteral literal = list.get(i);
 			if (literal.getName() == null)
 				throw new AnalyzeException("Items of the enumeration " + enumeration.getName() + " must have names!");

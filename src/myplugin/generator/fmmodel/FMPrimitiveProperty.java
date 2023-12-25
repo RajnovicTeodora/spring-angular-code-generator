@@ -16,7 +16,7 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	}
 
 	public FMPrimitiveProperty(String name, String type, String visibility, int lower, int upper, String columnName,
-			GenerationType generationType, Integer length, Boolean isId, Boolean unique, String frontType) {
+			GenerationType generationType, Integer length, Boolean isId, Boolean unique, String frontType, Boolean isEnum) {
 		super(name, type, visibility, lower, upper);
 		this.columnName = columnName;
 		this.generationType = generationType;
@@ -24,6 +24,7 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 		this.isId = isId;
 		this.unique = unique;
 		this.frontType = frontType;
+		this.isEnum = isEnum;
 	}
 
 	private String columnName;
@@ -32,6 +33,7 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 	private Boolean isId;
 	private Boolean unique;
 	private String frontType;
+	private Boolean isEnum;
 
 	public String getColumnName() {
 		return columnName;
@@ -79,6 +81,14 @@ public class FMPrimitiveProperty extends FMBackendProperty {
 
 	public void setFrontType(String frontType) {
 		this.frontType = frontType;
+	}
+
+	public Boolean getIsEnum() {
+		return isEnum;
+	}
+
+	public void setIsEnum(Boolean isEnum) {
+		this.isEnum = isEnum;
 	}
 
 }

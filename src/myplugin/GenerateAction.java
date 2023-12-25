@@ -22,6 +22,7 @@ import myplugin.analyzer.ModelAnalyzer;
 import myplugin.generator.ApplicationProperties;
 import myplugin.generator.BasicGenerator;
 import myplugin.generator.ControllerGenerator;
+import myplugin.generator.DTOGenerator;
 import myplugin.generator.DataMapperGenerator;
 import myplugin.generator.EJBGenerator;
 import myplugin.generator.EnumGenerator;
@@ -86,6 +87,7 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "EnumGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ServiceGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ModelGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "DTOGenerator");
 
 			// FrontEnd Application
 			this.generateComponent(root, PACKAGE_PREFIX, "FEModelGenerator");
@@ -190,6 +192,9 @@ class GenerateAction extends MDAction {
 				break;
 			case "ModelGenerator":
 				generator = new ModelGenerator(generatorOptions);
+				break;
+			case "DTOGenerator":
+				generator = new DTOGenerator(generatorOptions);
 				break;
 			case "FEModelGenerator":
 				generator = new FEModelGenerator(generatorOptions);
