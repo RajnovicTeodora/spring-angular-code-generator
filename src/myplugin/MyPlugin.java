@@ -17,8 +17,10 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 	private static final String GEN_DIR = "c:/generated";
 	private static final String MAIN_JAVA = GEN_DIR + "/backend/src/main/java";
+	private static final String SRC_MAIN = GEN_DIR + "/backend/src/main";
 	private static final String FRONTED_APP = GEN_DIR + "/frontend";
 	private static final String PACKAGE_PREFIX = "uns.ac.rs.mbrs";
+	private static final String RESOURCES = "resources";
 	private static final String APP_DIR = "src.app";
 	
 	public void init() {
@@ -29,12 +31,14 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		manager.addMainMenuConfigurator(new MainMenuConfigurator(getSubmenuActions()));
 
 		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX, "controller/{0}Controller.java", MAIN_JAVA);
-		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX, "mapper/{0}Mapper.java", MAIN_JAVA);
+		//generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX, "mapper/{0}Mapper.java", MAIN_JAVA);
 		generateOption("EnumGenerator", "enum", PACKAGE_PREFIX, "enumeration/{0}.java", MAIN_JAVA);
 		generateOption("PomGenerator", "pomxml", "", "pom.xml", GEN_DIR + "/backend");
 		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX, "service/{0}Service.java", MAIN_JAVA);
 		generateOption("RepositoryGenerator", "repository", PACKAGE_PREFIX, "repository/{0}Repository.java", MAIN_JAVA);
 		generateOption("SpringApplicationGenerator", "springapplication", PACKAGE_PREFIX, "BackendApplication.java", MAIN_JAVA);
+		generateOption("application.properties", "application.properties", RESOURCES, "application.properties", SRC_MAIN);
+		
 		generateOption("ModelGenerator", "back.model", PACKAGE_PREFIX, "model/{0}.java", MAIN_JAVA);
 		
 		//FrontEnd Application  

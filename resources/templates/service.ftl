@@ -1,15 +1,23 @@
 <#assign hasIdProperty = false>
-<#assign idName = "">
+<#assign idName = "id">
+<#assign idType = "long">
 <#list class.primitiveProperties as prim>
   <#if prim.isId>
     <#assign hasIdProperty = true>
     <#assign idName = prim.name>
+    <#assign idType = prim.type>
   </#if>
 </#list>
 package ${class.getTypePackage()}.service;
 
+import java.util.ArrayList;
 import ${class.getTypePackage()}.repository.${class.getName()}Repository;
-import ${class.getTypePackage()}.model.${class.getName()};
+import ${class.getTypePackage()}.model.${class.getName()?cap_first};
+<#list class.referenceProperties as p>
+<#if p.upper == -1>
+import ${class.getTypePackage()}.model.${p.type?cap_first};
+</#if>
+</#list>
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,7 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 	   
 <#list class.referenceProperties as property>
- import ${class.getTypePackage()}.service.${property.type}Service;
+ import ${class.getTypePackage()}.repository.${property.type}Repository;
 </#list>
 @Service
 @Transactional
@@ -28,16 +36,16 @@ public class ${class.name}Service  {
 
     private final ${class.name}Repository ${class.name?uncap_first}Repository;
     <#list class.referenceProperties as property>
-     private final ${property.type}Service ${property.type?uncap_first}Service;
+     private final ${property.type}Repository ${property.type?uncap_first}Repository;
 		</#list> 
 
     public ${class.name}Service(
-        ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Service ${property.name?uncap_first}Service   
+        ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Repository ${property.name?uncap_first}Repository   
 		</#list>
     ) {
         this.${class.name?uncap_first}Repository = ${class.name?uncap_first}Repository;
         <#list class.referenceProperties as property>
-         this.${property.type?uncap_first}Service = ${property.name?uncap_first}Service;      
+         this.${property.type?uncap_first}Repository = ${property.name?uncap_first}Repository;      
 </#list>
     }
     
@@ -60,8 +68,14 @@ public class ${class.name}Service  {
         	</#if>
             .map(existing${class.name} -> {
             
-            <#list class.properties as property>
+            <#list class.primitiveProperties as property>
+            	<#if property.type == "String" || property.type=="char">
 			    if (${class.name?uncap_first}.get${property.name?cap_first}() != null) {
+			    <#elseif property.type == "boolean">
+			    if (${class.name?uncap_first}.get${property.name?cap_first}() != false) {
+			    <#else>
+			     if (${class.name?uncap_first}.get${property.name?cap_first}() != 0) {
+			     </#if>
 			        existing${class.name}.set${property.name?cap_first}(${class.name?uncap_first}.get${property.name?cap_first}());
 			    }
 			</#list>
@@ -84,20 +98,19 @@ public class ${class.name}Service  {
 
                    
 public void delete(Long id) {
-    Optional<${class.name}> maybe${class.name} = ${class.name?uncap_first}Repository.findById(id);
+    Optional<${class.name}> maybe${class.name?cap_first} = ${class.name?uncap_first}Repository.findById(id);
 
-    if (existing${class.name}.isPresent()) {
-		${class.name} existing${class.name} = maybe${class.name}.get();
-        existing${class.name}.setDeleted(true);
-        <#list class.properties as property>
-            if(!existing${class.name}.get${property.name?cap_first}().getClass().isPrimitive()){
-                <#if property.type != "List">
-                ${property.name}Service.delete(existing${class.name}.get${property.name?cap_first}().getId());
-                </#if>
-                <#if property.type == "List">
-    for (${property.genericType} ${property.name?uncap_first} : existing${class.name}.get${property.name?cap_first}()) {
-        ${property.name}Service.delete(${property.name?uncap_first}.getId());
-    }
+    if (maybe${class.name?cap_first}.isPresent()) {
+		${class.name?cap_first} existing${class.name?cap_first} = maybe${class.name?cap_first}.get();
+        existing${class.name?cap_first}.setDeleted(true);
+        <#list class.referenceProperties as property>
+            if(!existing${class.name?cap_first}.get${property.name?cap_first}().getClass().isPrimitive()){
+                <#if property.upper == -1>
+                for (${property.type} p: existing${class.getName()?cap_first}.get${property.name?cap_first}()){
+                    p.setDeleted(true);
+                }
+                <#else>
+                existing${class.name?cap_first}.get${property.type?cap_first}().setDeleted(true);
 </#if>
 	
             }
@@ -106,4 +119,16 @@ public void delete(Long id) {
         ${class.name?uncap_first}Repository.save(existing${class.name});
     }
 }
+
+<#list referenceProperties as prop>
+	<#if prop.upper ==-1>
+	public Object find${prop.name?cap_first}Of${class.getName()?cap_first}(${idType} ${idName}) {
+        Optional<${class.getName()?cap_first}> ${class.getName()?uncap_first}=${class.getName()?uncap_first}Repository.findById(${idName});
+        if(${class.getName()?uncap_first}.isPresent()){
+        return  ${class.getName()?uncap_first}.get().get${prop.name?cap_first}()!=null ? ${class.getName()?uncap_first}.get().get${prop.name?cap_first}().toArray() :new ArrayList<>();
+        }
+        return new ArrayList<>();
+    }
+	</#if>
+	</#list>
 }

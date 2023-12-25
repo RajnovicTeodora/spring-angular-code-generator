@@ -1,5 +1,5 @@
 <#assign hasIdProperty = false>
-<#assign idName = "">
+<#assign idName = "id">
 <#assign idType = "">
 <#list class.primitiveProperties as prim>
   <#if prim.isId>
@@ -69,5 +69,19 @@ public class ${class.name}Controller {
 		${class.name?uncap_first}Service.delete(<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>);
 		return ResponseEntity.noContent().build();
 	}
-
+	
+	@GetMapping("/d/{<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>}")
+	public ResponseEntity<?> deleOne(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>) {
+		${class.name?uncap_first}Service.delete(<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>);
+		return ResponseEntity.noContent().build();
+	}
+	
+	<#list referenceProperties as prop>
+	<#if prop.upper ==-1>
+	@GetMapping("/get-${prop.name?uncap_first}/{${idName}}")
+	public ResponseEntity<?> get${prop.name?cap_first}(@PathVariable long ${idName}) {
+		return ResponseEntity.ok().body(${class.getName()?uncap_first}Service.find${prop.name?cap_first}Of${class.getName()?cap_first}(${idName}));
+	}
+	</#if>
+	</#list>
 }

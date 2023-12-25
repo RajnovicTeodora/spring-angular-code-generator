@@ -31,9 +31,12 @@
       <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
         &nbsp;<span>Cancel</span>
       </button>
-  
-      <button id="jhi-confirm-delete-${class.getName()}" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
-        &nbsp;<span>Delete</span>
+  <#if hasIdProperty>
+      <button (click)="confirmDelete(${class.getName()?uncap_first}.${idName})" id="jhi-confirm-delete-${class.getName()}" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+  <#else>
+  <button (click)="confirmDelete(${class.getName()?uncap_first}.id)" id="jhi-confirm-delete-${class.getName()}" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+  </#if>
+           &nbsp;<span>Delete</span>
       </button>
     </div>
   </form>

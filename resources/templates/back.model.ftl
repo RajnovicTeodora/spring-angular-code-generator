@@ -1,7 +1,11 @@
 <#assign hasId = false>
+<#assign nameId = "">
+<#assign typeId = "">
 <#list primitiveProperties as prim>
   <#if prim.isId>
     <#assign hasId = true>
+    <#assign nameId = prim.name>
+	<#assign typeId = prim.type>
   </#if>
 </#list>
 package ${class.typePackage}.model;
@@ -13,7 +17,8 @@ import java.util.List;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.Date;
-import ${class.typePackage}.enumeration.*;
+
+//import ${class.typePackage}.enumeration.*;
 
 @AllArgsConstructor
 @Entity
@@ -65,6 +70,8 @@ ${class.visibility} class ${class.name}{
 	
 	</#if>	
 	</#list>
+	@Column(name="deleted", unique = false)
+	private boolean deleted;
 
 	<#list referenceProperties as property>
 	<#if (property)??>
@@ -136,4 +143,14 @@ ${class.visibility} class ${class.name}{
 	}${'\n'}
 	</#if>
 	</#list>
+	public boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	<#if hasId>
+	public ${typeId} getId() { return ${nameId}; }
+	</#if>
 }

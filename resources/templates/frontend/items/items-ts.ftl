@@ -41,11 +41,11 @@ export class ${class.name?cap_first}sComponent implements OnInit {
   }
 
   open(id: ${identifierType}) {
-    this.router.navigate(['${class.name?lower_case}s', id]);
+    this.router.navigate(['${class.name?lower_case}', id]);
   }
 
   create() {
-    this.router.navigate(['${class.name?lower_case}s', 'new']);
+    this.router.navigate(['${class.name?lower_case}', 'new']);
   }
   delete(${class.name?lower_case}: ${class.name?cap_first}): void {
     const modalRef = this.modalService.open(${class.name?cap_first}DeleteComponent, { size: 'lg', backdrop: 'static' });
@@ -57,6 +57,6 @@ export class ${class.name?cap_first}sComponent implements OnInit {
     });
   }
   view(id: ${identifierType}) {
-    this.router.navigate(['${class.name?lower_case}s/view/', id]);
+    this.router.navigate(['${class.name?lower_case}/view/', id]);
   }
 }

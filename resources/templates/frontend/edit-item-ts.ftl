@@ -1,3 +1,11 @@
+<#assign hasIdProperty = false>
+<#assign idName = "id">
+<#list primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasIdProperty = true>
+    <#assign idName = prim.name>
+  </#if>
+</#list>
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -7,6 +15,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+<#list referenceProperties as property>
+		<#if property.upper != 1>
+import { ${property.type?cap_first}Service } from '../../shared/service/${property.type?cap_first}/${property.type?cap_first}.service';
+        </#if>
+  	</#list>
 import { ${class.getName()?cap_first}Service } from '../../shared/service/${class.getName()?cap_first}/${class.getName()?cap_first}.service';
 <#list properties as property>
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
@@ -30,22 +43,37 @@ export class ${class.getName()}EditComponent implements OnInit {
   ${class.getName()?uncap_first}Form!: FormGroup;
   isEditMode: boolean = false;
     <#list primitiveProperties as property>
-    <#if property.type == "int" || property.type == "Integer" || property.type == "float" || property.type == "Double" || property.type == "double" >
+    <#if property.type == "int" || property.type == "long" || property.type == "Integer" || property.type == "float" || property.type == "Double" || property.type == "double" >
         ${property.name?uncap_first}: number = 0;
     <#elseif property.type == "String" || property.type == "char">
     	${property.name?uncap_first}: string = "";
     <#elseif property.type == "boolean">
     	${property.name?uncap_first}: boolean = false;
+    <#else>
+    	${property.name?uncap_first}: ${frontType} = null;
     </#if>
   </#list>
    <#list referenceProperties as property>
+		<#if property.upper == 1>
+        ${property.name?uncap_first}: ${property.type?cap_first} | null = null;
+        <#else>
         ${property.name?uncap_first}: ${property.type?cap_first}[] = [];
+        all${property.name?cap_first}: ${property.type?cap_first}[] = [];
+        </#if>
   </#list>
+  <#if !hasIdProperty>
+  	${idName}: number=0;
+  </#if>
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private service: ${class.getName()}Service
+    private service: ${class.getName()}Service,
+    <#list referenceProperties as property>
+		<#if property.upper != 1>
+		private ${property.type?uncap_first}Service: ${property.type?cap_first}Service,
+        </#if>
+  	</#list>
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +82,18 @@ export class ${class.getName()}EditComponent implements OnInit {
   }
 
   private initializeForm(): void {
+  <#list referenceProperties as prop>
+  	<#if prop.upper == -1>
+  	this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName}).then((${prop.name}: any)=>{
+      this.${prop.name} = ${prop.name};
+    })
+    this.${prop.type?uncap_first}Service.findAll().then((${prop.name})=>{ this.all${prop.name?cap_first}=${prop.name?uncap_first};
+    })
+    </#if>
+  </#list>
+  
+  
+   if (!this.isEditMode){
     this.${class.getName()?uncap_first}Form = this.fb.group({
     <#list properties as property>
         <#if property.class.name != "myplugin.generator.fmmodel.FMReferenceProperty">
@@ -61,50 +101,84 @@ export class ${class.getName()}EditComponent implements OnInit {
         </#if>
     </#list>
     });
+    }else{
+    this.${class.getName()?uncap_first}Form = this.fb.group({
+    <#list primitiveProperties as property>
+            ${property.name}: [this.${property.name}, Validators.required],
+    </#list>
+    });
+    }
   }
+  
+  <#list referenceProperties as prop>
+  <#if prop.upper == -1>
+   public add${prop.type?cap_first}(id: any):void{
+    const g: ${prop.type?cap_first} | undefined = this.all${prop.name?cap_first}.find(x => x.id === id);
+    if (g) {
+      this.${prop.name}.push(g);
+    } else {
+      console.error(`No Grade found with id`);
+    }
+  
+  }
+  public remove${prop.type?cap_first}(id: any): void {
+    this.${prop.name} = this.${prop.name}.filter(x => x.id !== id);
+  }
+ public check${prop.type?cap_first}(id: any): boolean{
+    return this.${prop.name}.find(x => x.id === id)? true: false;
+  }
+</#if>
+  </#list>
+  
+  
 
   private checkEditMode(): void {
     this.route.params.subscribe((params) => {
       if (params['id']) {
         const ${class.getName()?uncap_first}Id = params['id'];
         this.isEditMode = true;
-       // this.fetchStudentData(studentId);
+        this.${idName} = ${class.getName()?uncap_first}Id;
+        this.fetch${class.getName()}Data(${class.getName()?uncap_first}Id);
       }
     });
   }
 
   private fetch${class.getName()}Data(${class.getName()?uncap_first}Id: number): void {
     this.service.findById(${class.getName()?uncap_first}Id).then((${class.getName()?uncap_first}Data: any) => {
-      //this.grades = ${class.getName()?uncap_first}Data.grades;
-     // this.${class.getName()?uncap_first}Form.patchValue({
-        <#list properties as property>
-            <#if property.class.name != "myplugin.generator.fmmodel.FMReferenceProperty">
-               // this.fetch${class.getName()}Data.(${property.name});
-            </#if>
+    
+    <#list referenceProperties as property>
+        this.${property.name?uncap_first}=  ${class.getName()?uncap_first}Data.${property.name?uncap_first};
+  </#list>
+      this.${class.getName()?uncap_first}Form.patchValue({
+        <#list primitiveProperties as property>
+              ${property.name?uncap_first}: ${class.getName()?uncap_first}Data.${property.name?uncap_first},
         </#list>
-    //  });
+      });
     });
   }
 
   onSubmit(): void {
     if (this.${class.getName()?uncap_first}Form.valid) {
       const formData = this.${class.getName()?uncap_first}Form.value;
+       const ${class.getName()?uncap_first} = new ${class.getName()?cap_first}(
+       <#list primitiveProperties as prop> formData["${prop.name}"],</#list><#list referenceProperties as prop>this.${prop.name},</#list> <#if !hasIdProperty>this.id</#if>)
+      
       if (this.isEditMode) {
-        // Handle update logic using ${class.getName()}Service
-        // Update ${class.getName()?uncap_first} data with formData
-        // this.${class.getName()?uncap_first}Service.update${class.getName()}(formData).subscribe(...);
-        console.log('Updating ${class.getName()?uncap_first}:', formData);
+      	const resp = this.service.update(this.${idName}, ${class.getName()?uncap_first});
       } else {
-        // Handle creation logic using ${class.getName()}Service
-        // Create new ${class.getName()?uncap_first} with formData
-        // this.${class.getName()?uncap_first}Service.create${class.getName()}(formData).subscribe(...);
-        console.log('Creating ${class.getName()?uncap_first}:', formData);
+       const resp =   this.service.create(${class.getName()?uncap_first});
+        // this.${class.getName()?uncap_first}Service.create(formData).subscribe(...);
       }
     }
   }
   <#list referenceProperties as property>
-   public getObjectProperties${property.name?cap_first}(${property.name?uncap_first}: ${property.type?cap_first}): any {
-    return Object.keys(${property.name?uncap_first});
+   public getObjectProperties${property.name?cap_first}(${property.name?uncap_first}: ${property.type?cap_first} | null): any {
+    return Object.keys(${property.name?uncap_first}? ${property.name?uncap_first}:{});
+  }
+  public getValue${property.name?cap_first}(${property.type?uncap_first}: ${property.type?cap_first}, property: string): any{
+    return ${property.type?uncap_first}[property];
   }
   </#list>
+  
+  
 }

@@ -6,7 +6,7 @@
             <label for="${property.name}">${property.name}:</label>
         <div><label type="text" id="${property.name}">&nbsp;&nbsp;{{${property.name}}}</label></div>
         </div>
-
+<br/>
     <#else>
         <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
         	 <#if property.upper == -1>
