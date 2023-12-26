@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import java.util.Set;
 import java.util.Date;
 <#if hasEnum == true>import ${class.typePackage}.enumeration.*;</#if>
 
@@ -30,7 +29,6 @@ ${class.visibility} class ${class.name}{
 	@Id 
 	@Column(name = "id", unique = true, nullable = false)
 	<#if property.generationType.name() == "IDENTITY">
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	<#elseif property.generationType.name() == "SEQUENCE">
 	@GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
@@ -79,14 +77,14 @@ ${class.visibility} class ${class.name}{
 		<#if (property.fetchType)??>
 			<#lt><#if (property.cascadeType)??>, </#if>fetch = FetchType.${property.fetchType.name()}<#rt>
 		</#if>
-		<#if (property.mappedBy)?? && (property.cardinality == "OneToMany")>
+		<#if (property.mappedBy)??>
 			<#lt><#if (property.cascadeType)?? || (property.fetchType)??>, </#if>mappedBy = "${property.mappedBy}"<#rt>
 		</#if>
-		<#lt>)		<#elseif (property.cardinality)?? && (property.cardinality == "ManyToMany")>${'\n'}	@JoinColumn(name = "${(property.name?replace("([A-Z])", "_$1"))?lower_case}",${'\n'}            joinColumns = @JoinColumn(name = "<#if (class.tableName)??>${class.tableName}<#else>${(class.name?replace("([A-Z])", "_$1"))?lower_case}</#if>_id", referencedColumnName = "id"),${'\n'}            inverseJoinColumns = @JoinColumn(name = "${property.type?uncap_first}_id", referencedColumnName = "id"))</#if>
+		<#lt>)		<#if (property.cardinality)?? && (property.cardinality == "ManyToMany") && (property.fetchType)?? && (property.fetchType.name() == "LAZY")>${'\n'}	@JoinTable(name = "${property.name}",${'\n'}            joinColumns = @JoinColumn(name = "<#if (class.tableName)??>${class.tableName}<#else>${(class.name?replace("([A-Z])", "_$1"))?lower_case}</#if>_id", referencedColumnName = "id"),${'\n'}            inverseJoinColumns = @JoinColumn(name = "${property.type?uncap_first}_id", referencedColumnName = "id"))</#if></#if>
 	<#if (property.visibility)?? && (property.type)?? && (property.name)??>
 	${(property.visibility)} <#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type?cap_first}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
@@ -116,7 +114,7 @@ ${class.visibility} class ${class.name}{
 	<#if (property)?? && (property.type)?? && (property.name)??>
 	public <#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type?cap_first}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
@@ -128,7 +126,7 @@ ${class.visibility} class ${class.name}{
 
 	public void set${property.name?cap_first}(<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
