@@ -30,6 +30,8 @@ export class ${class.name} {
     	${property.name?uncap_first}: string = ""; 
     <#elseif property.type == "boolean">
     	${property.name?uncap_first}: boolean = false; 
+    <#elseif property.frontType == "string">
+    	${property.name?uncap_first}: ${property.frontType} = "";
     <#else>
     	${property.name?uncap_first}: ${property.type?uncap_first} = ""; 
     </#if>
@@ -64,7 +66,7 @@ export class ${class.name} {
     <#elseif property.type == "boolean">
     	${property.name?uncap_first}: boolean, 
     <#else>
-    	${property.name?uncap_first}: ${property.type?uncap_first}; 
+    	${property.name?uncap_first}: ${property.frontType?uncap_first}, 
     </#if>
       <#elseif property.upper == -1>
         ${property.name}: ${property.type}[] | null,

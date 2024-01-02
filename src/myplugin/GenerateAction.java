@@ -83,7 +83,7 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "application.properties");
 			this.generateComponent(root, PACKAGE_PREFIX, "ControllerGenerator");
 			this.generateComponent(root, "", "PomGenerator");
-			//this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "EnumGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ServiceGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "ModelGenerator");

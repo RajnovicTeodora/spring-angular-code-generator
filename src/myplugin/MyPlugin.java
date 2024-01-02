@@ -31,7 +31,7 @@ public class MyPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		manager.addMainMenuConfigurator(new MainMenuConfigurator(getSubmenuActions()));
 
 		generateOption("ControllerGenerator", "controller", PACKAGE_PREFIX, "controller/{0}Controller.java", MAIN_JAVA);
-		//generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX, "mapper/{0}Mapper.java", MAIN_JAVA);
+		generateOption("DataMapperGenerator", "mapper", PACKAGE_PREFIX, "mapper/{0}Mapper.java", MAIN_JAVA);
 		generateOption("EnumGenerator", "enum", PACKAGE_PREFIX, "enumeration/{0}.java", MAIN_JAVA);
 		generateOption("PomGenerator", "pomxml", "", "pom.xml", GEN_DIR + "/backend");
 		generateOption("ServiceGenerator", "service", PACKAGE_PREFIX, "service/{0}Service.java", MAIN_JAVA);

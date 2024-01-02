@@ -49,8 +49,10 @@ export class ${class.getName()}EditComponent implements OnInit {
     	${property.name?uncap_first}: string = "";
     <#elseif property.type == "boolean">
     	${property.name?uncap_first}: boolean = false;
+    <#elseif property.frontType == "string">
+    	${property.name?uncap_first}: ${property.frontType} = "";
     <#else>
-    	${property.name?uncap_first}: ${frontType} = null;
+    	${property.name?uncap_first}: ${property.frontType} = null;
     </#if>
   </#list>
    <#list referenceProperties as property>
@@ -82,16 +84,6 @@ export class ${class.getName()}EditComponent implements OnInit {
   }
 
   private initializeForm(): void {
-  <#list referenceProperties as prop>
-  	<#if prop.upper == -1>
-  	this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName}).then((${prop.name}: any)=>{
-      this.${prop.name} = ${prop.name};
-    })
-    this.${prop.type?uncap_first}Service.findAll().then((${prop.name})=>{ this.all${prop.name?cap_first}=${prop.name?uncap_first};
-    })
-    </#if>
-  </#list>
-  
   
    if (!this.isEditMode){
     this.${class.getName()?uncap_first}Form = this.fb.group({
@@ -101,6 +93,12 @@ export class ${class.getName()}EditComponent implements OnInit {
         </#if>
     </#list>
     });
+     <#list referenceProperties as prop>
+  	<#if prop.upper == -1>
+    this.${prop.type?uncap_first}Service.findAll().then((${prop.getName()})=>{ this. all${prop.name?cap_first}=${prop.getName()};
+    })
+    </#if>
+    </#list>
     }else{
     this.${class.getName()?uncap_first}Form = this.fb.group({
     <#list primitiveProperties as property>
@@ -140,6 +138,16 @@ export class ${class.getName()}EditComponent implements OnInit {
         this.${idName} = ${class.getName()?uncap_first}Id;
         this.fetch${class.getName()}Data(${class.getName()?uncap_first}Id);
       }
+        <#list referenceProperties as prop>
+  	<#if prop.upper == -1>
+  	this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName}).then((${prop.name}: any)=>{
+      this.${prop.name} = ${prop.name};
+   
+    this.${prop.type?uncap_first}Service.findAll().then((${prop.name})=>{ this.all${prop.name?cap_first}=${prop.name?uncap_first};
+    })
+     })
+    </#if>
+  </#list>
     });
   }
 
@@ -147,7 +155,8 @@ export class ${class.getName()}EditComponent implements OnInit {
     this.service.findById(${class.getName()?uncap_first}Id).then((${class.getName()?uncap_first}Data: any) => {
     
     <#list referenceProperties as property>
-        this.${property.name?uncap_first}=  ${class.getName()?uncap_first}Data.${property.name?uncap_first};
+    if(${class.getName()?uncap_first}Data.${property.name?uncap_first} != undefined  ){
+        this.${property.name?uncap_first}=  ${class.getName()?uncap_first}Data.${property.name?uncap_first};}
   </#list>
       this.${class.getName()?uncap_first}Form.patchValue({
         <#list primitiveProperties as property>

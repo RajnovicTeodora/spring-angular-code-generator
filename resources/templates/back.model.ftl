@@ -94,7 +94,7 @@ ${class.visibility} class ${class.name}{
 	<#if (property.visibility)?? && (property.type)?? && (property.name)??>
 	${(property.visibility)} <#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type?cap_first}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
@@ -124,7 +124,7 @@ ${class.visibility} class ${class.name}{
 	<#if (property)?? && (property.type)?? && (property.name)??>
 	public <#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type?cap_first}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
@@ -136,7 +136,7 @@ ${class.visibility} class ${class.name}{
 
 	public void set${property.name?cap_first}(<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>
-		<#lt>Set<<#rt> 
+		<#lt>List<<#rt> 
 	</#if>
 	<#lt>${property.type}<#rt>
 	<#if (property.upper)?? && (property.upper) == -1>

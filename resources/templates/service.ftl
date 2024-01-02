@@ -16,6 +16,8 @@ import ${class.getTypePackage()}.model.${class.getName()?cap_first};
 <#list class.referenceProperties as p>
 <#if p.upper == -1>
 import ${class.getTypePackage()}.model.${p.type?cap_first};
+import ${class.getTypePackage()}.mapper.${p.type?cap_first}Mapper;
+import ${class.getTypePackage()}.dto.${p.type?cap_first}DTO;
 </#if>
 </#list>
 import java.util.List;
@@ -26,7 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-	   
+import uns.ac.rs.mbrs.dto.${class.getName()?cap_first}DTO;
 <#list class.referenceProperties as property>
  import ${class.getTypePackage()}.repository.${property.type}Repository;
 </#list>
@@ -37,24 +39,67 @@ public class ${class.name}Service  {
     private final ${class.name}Repository ${class.name?uncap_first}Repository;
     <#list class.referenceProperties as property>
      private final ${property.type}Repository ${property.type?uncap_first}Repository;
+     <#if property.upper ==-1>
+       private final ${property.type}Mapper ${property.type?uncap_first}Mapper;
+       </#if>
 		</#list> 
 
     public ${class.name}Service(
-        ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Repository ${property.name?uncap_first}Repository   
+        ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Repository ${property.name?uncap_first}Repository 
+             <#if property.upper ==-1>,${property.type}Mapper ${property.type?uncap_first}Mapper</#if>
 		</#list>
     ) {
         this.${class.name?uncap_first}Repository = ${class.name?uncap_first}Repository;
         <#list class.referenceProperties as property>
-         this.${property.type?uncap_first}Repository = ${property.name?uncap_first}Repository;      
+         this.${property.type?uncap_first}Repository = ${property.name?uncap_first}Repository; 
+              <#if property.upper ==-1> 
+         this.${property.type?uncap_first}Mapper = ${property.type?uncap_first}Mapper;   
+         </#if>
 </#list>
     }
     
-    public ${class.name} save(${class.name} ${class.name?uncap_first}) {
-        return ${class.name?uncap_first}Repository.save(${class.name?uncap_first});
+    public ${class.name}DTO save(${class.name} ${class.name?uncap_first}) {
+    	${class.name?cap_first} s = ${class.name?uncap_first}Repository.save(${class.name?uncap_first});
+       
+    	<#list referenceProperties as prop>
+    	<#if prop.upper ==-1>
+    	for(${prop.type?cap_first} g : ${class.name?uncap_first}.get${prop.name?cap_first}()){
+    	 	${prop.type?cap_first} gr = ${prop.type?uncap_first}Repository.findById(g.getId()).get();
+            gr.set${class.getName()?cap_first}(s);
+            ${prop.type?uncap_first}Repository.save(gr);
+        }
+    	</#if>
+    	</#list>
+    	return new ${class.name?cap_first}DTO(s.get${idName?cap_first}() <#if primitiveProperties?has_content>,</#if> <#list primitiveProperties as prop><#if prop.isEnum>s.get${prop.name?cap_first}().toString()<#else>s.get${prop.name?cap_first}()</#if> <#if prop?has_next>,</#if></#list>);
     }
 
-    public ${class.name} update(${class.name} ${class.name?uncap_first}) {
-        return ${class.name?uncap_first}Repository.save(${class.name?uncap_first});
+    public ${class.name}DTO update(${class.name} ${class.name?uncap_first}) {
+    
+    <#list referenceProperties as prop>
+    	<#if prop.upper ==-1>
+    	if (${class.name?uncap_first}Repository.findById(${class.name?uncap_first}.get${idName?cap_first}()).isPresent()){
+            List<${prop.type?cap_first}> g = ${class.name?uncap_first}Repository.findById(${class.name?uncap_first}.get${idName?cap_first}()).get().get${prop.name?cap_first}();
+            if(g!=null){
+                for(${prop.type?cap_first} gr : g){
+                    gr.set${class.name?cap_first}(null);
+                    ${prop.type?uncap_first}Repository.save(gr);
+                }
+            }
+        }
+    </#if>
+    	</#list>
+    
+    
+    	<#list referenceProperties as prop>
+    	<#if prop.upper ==-1>
+    	for(${prop.type?cap_first} g : ${class.name?uncap_first}.get${prop.name?cap_first}()){
+            g.set${class.name?cap_first}(${class.name?uncap_first});
+            ${prop.type?uncap_first}Repository.save(g);
+        }
+    	</#if>
+    	</#list>
+    	${class.name?cap_first} s = ${class.name?uncap_first}Repository.save(${class.name?uncap_first});
+        return new ${class.name?cap_first}DTO(s.get${idName?cap_first}() <#if primitiveProperties?has_content>,</#if> <#list primitiveProperties as prop><#if prop.frontType == "string" && prop.type!="String" && prop.type!="char">s.get${prop.name?cap_first}().toString()<#else>s.get${prop.name?cap_first}()</#if> <#if prop?has_next>,</#if></#list> );
     }
 
 	 public Optional<${class.name}> partialUpdate(${class.name} ${class.name?uncap_first}) {
@@ -73,8 +118,10 @@ public class ${class.name}Service  {
 			    if (${class.name?uncap_first}.get${property.name?cap_first}() != null) {
 			    <#elseif property.type == "boolean">
 			    if (${class.name?uncap_first}.get${property.name?cap_first}() != false) {
-			    <#else>
+			    <#elseif property.type == "int" ||  property.type == "Integer" || property.type == "double" ||  property.type == "Double"|| property.type == "long" ||  property.type == "float">
 			     if (${class.name?uncap_first}.get${property.name?cap_first}() != 0) {
+			    <#else>
+			    if (${class.name?uncap_first}.get${property.name?cap_first}() != null) {
 			     </#if>
 			        existing${class.name}.set${property.name?cap_first}(${class.name?uncap_first}.get${property.name?cap_first}());
 			    }
@@ -86,14 +133,40 @@ public class ${class.name}Service  {
     }
 
     @Transactional(readOnly = true)
-    public List<${class.name}> findAll() {
-        return ${class.name?uncap_first}Repository.findAll();
+    public List<${class.name?cap_first}DTO> findAll() {
+   		List<${class.name?cap_first}> ${class.name?uncap_first}s = ${class.name?uncap_first}Repository.findAll();
+        List<${class.name?cap_first}DTO> dtos = new ArrayList<>();
+        for(${class.name?cap_first} s : ${class.getName()?uncap_first}s){
+            ${class.name?cap_first}DTO dto = new ${class.name?cap_first}DTO();
+	        <#list primitiveProperties as prop>
+	        <#if !( prop.type == "int" || prop.type == "long" || prop.type == "Integer" || prop.type == "float" || prop.type == "Double" || prop.type == "double" || prop.type == "String" || prop.type == "char" || prop.type == "boolean")>
+	        dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}().toString());
+	        <#else>
+	        dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}());
+	        </#if>
+	        
+	        dto.setId(s.get${idName?cap_first}());
+	        
+	        </#list>
+            dtos.add(dto);
+        }
+        return dtos;
+       
     }
 
 
     @Transactional(readOnly = true)
-    public Optional<${class.name}> findOne(Long id) {
-        return ${class.name?uncap_first}Repository.findById(id);
+    public ${class.name}DTO findOne(Long id) {
+    	${class.name?cap_first} s =  ${class.name?uncap_first}Repository.findById(id).get();
+        ${class.name?cap_first}DTO dto = new ${class.name?cap_first}DTO();
+        <#list primitiveProperties as prop>
+       <#if !( prop.type == "int" || prop.type == "long" || prop.type == "Integer" || prop.type == "float" || prop.type == "Double" || prop.type == "double" || prop.type == "String" || prop.type == "char" || prop.type == "boolean")>
+	    dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}().toString());
+        <#else>
+        dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}());
+        </#if>
+        </#list>
+        return dto;
     }
 
                    
@@ -125,8 +198,15 @@ public void delete(Long id) {
 	public Object find${prop.name?cap_first}Of${class.getName()?cap_first}(${idType} ${idName}) {
         Optional<${class.getName()?cap_first}> ${class.getName()?uncap_first}=${class.getName()?uncap_first}Repository.findById(${idName});
         if(${class.getName()?uncap_first}.isPresent()){
-        return  ${class.getName()?uncap_first}.get().get${prop.name?cap_first}()!=null ? ${class.getName()?uncap_first}.get().get${prop.name?cap_first}().toArray() :new ArrayList<>();
-        }
+
+          List<${prop.type?cap_first}DTO> dtos = new ArrayList<>();
+                for (${prop.type?cap_first} g : ${class.getName()?uncap_first}.get().get${prop.name?cap_first}()){ 
+                    ${prop.type?cap_first}DTO dto = ${prop.type?uncap_first}Mapper.toDTO(g);
+                    dtos.add(dto);
+                }
+                return dtos;
+
+                }
         return new ArrayList<>();
     }
 	</#if>
