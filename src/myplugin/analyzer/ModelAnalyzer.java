@@ -223,7 +223,7 @@ public class ModelAnalyzer {
 				List value = StereotypesHelper.getStereotypePropertyValue(p, referenceStereotype, tagName);
 				if (value.size() > 0) {
 					switch (tagName) {
-					case "cascade":
+					case "cascadeType":
 						EnumerationLiteralImpl casc = (EnumerationLiteralImpl) value.get(0);
 						cascadeType = CascadeType.valueOf(casc.getName());
 						break;
