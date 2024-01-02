@@ -19,6 +19,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import myplugin.analyzer.AnalyzeException;
 import myplugin.analyzer.ModelAnalyzer;
+import myplugin.generator.ApplicationProperties;
 import myplugin.generator.BasicGenerator;
 import myplugin.generator.ControllerGenerator;
 import myplugin.generator.DTOGenerator;
@@ -79,6 +80,7 @@ class GenerateAction extends MDAction {
 			this.generateComponent(root, PACKAGE_PREFIX, "RepositoryGenerator");
 			 
 			this.generateComponent(root, PACKAGE_PREFIX, "SpringApplicationGenerator");
+			this.generateComponent(root, PACKAGE_PREFIX, "application.properties");
 			this.generateComponent(root, PACKAGE_PREFIX, "ControllerGenerator");
 			this.generateComponent(root, "", "PomGenerator");
 			this.generateComponent(root, PACKAGE_PREFIX, "DataMapperGenerator");
@@ -181,6 +183,9 @@ class GenerateAction extends MDAction {
 				break;
 			case "SpringApplicationGenerator":
 				generator = new SpringApplicationGenerator(generatorOptions);
+				break;
+			case "application.properties":
+				generator = new ApplicationProperties(generatorOptions);
 				break;
 			case "EnumGenerator":
 				generator = new EnumGenerator(generatorOptions);

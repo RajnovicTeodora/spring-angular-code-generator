@@ -9,11 +9,11 @@ spring.datasource.driverClassName=org.postgresql.Driver
 spring.sql.init.platform=postgres
 
 #	Navodi se URL do baze koja je pokrenuta u lokalu na podrazumevanom portu 5432 i na serveru je kreirana sema baze pod nazivom "pharmacyDB"
-spring.datasource.url=jdbc:postgresql://localhost:5432/{projectName}DB
+spring.datasource.url=jdbc:postgresql://localhost:5432/mbrs
 
 #	Navode se kredencijali za konekciju na server baze
 spring.datasource.username=postgres
-spring.datasource.password=root
+spring.datasource.password=test
 
 #	Umesto da sami pisemo SQL skriptu za kreiranje tabela u bazi, Hibernate kreira tabele na osnovu anotacija @Entity i kada aplikacija zavrsi sa radom dropuje ih (create-drop)
 #	https://www.baeldung.com/spring-boot-data-sql-and-schema-sql

@@ -1,3 +1,11 @@
+<#assign hasIdProperty = false>
+<#assign idName = "id">
+<#list primitiveProperties as prim>
+  <#if prim.isId>
+    <#assign hasIdProperty = true>
+    <#assign idName = prim.name>
+  </#if>
+</#list>
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -39,11 +47,15 @@ export class ${class.name}ViewComponent implements OnInit{
     	${property.name?uncap_first}: string = ""; 
     <#elseif property.type == "boolean">
     	${property.name?uncap_first}: boolean = false; 
+    <#elseif property.frontType == "string">
+    	${property.name?uncap_first}: ${property.frontType} = "";
     <#else>
     	${property.name?uncap_first}: ${property.type?uncap_first} = ""; 
     </#if>
   </#list>
-
+  <#if !hasIdProperty>
+  		id: number = 0;
+</#if>
   constructor(
     private route: ActivatedRoute,
     private service: ${class.name}Service
@@ -57,7 +69,6 @@ export class ${class.name}ViewComponent implements OnInit{
     this.route.params.subscribe((params) => {
       if (params['id']) { ///todo ili ovde da ide nest sto nije id, tipa indeks da je id
         const ${class.name?uncap_first}Id = params['id'];
-        this.isEditMode = true;
         this.fetch${class.name}Data(${class.name?uncap_first}Id);
       }
     });
@@ -65,8 +76,13 @@ export class ${class.name}ViewComponent implements OnInit{
 
   private fetch${class.name}Data(${class.name?uncap_first}Id: number): void {
     this.service.findById(${class.name?uncap_first}Id).then((${class.name?uncap_first}Data: any) => {
-       <#list properties as property>
+       <#list primitiveProperties as property>
         this.${property.name?uncap_first} = ${class.name?uncap_first}Data.${property.name?uncap_first};
+      </#list>
+      <#list referenceProperties as prop>
+       this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName?uncap_first}).then((${prop.name?uncap_first}: any)=>{
+      this.${prop.name} = ${prop.name};
+  		});
       </#list>
     });
   }
