@@ -24,6 +24,7 @@
     
 <br/>
 <#else>
+		
    <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
 		<#if property.upper == -1>
             <div *ngIf="all${property.name?cap_first}!=null" class="form-group">
@@ -50,7 +51,15 @@
                     </tbody>
                 </table>
             </div>
+            <#else>
+            <label>${property.name?cap_first}</label>
+			<select [formControl]="${property.name?uncap_first}Control" >
+			    @for (s of this.all${property.name?cap_first}s; track s) {
+			      <option [value]="s.id">{{s.id}}</option>
+			    }
+			  </select>
             </#if>
+            
         </#if>
   </#if>
       </#list>

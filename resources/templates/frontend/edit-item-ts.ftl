@@ -9,6 +9,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -16,9 +17,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 <#list referenceProperties as property>
-		<#if property.upper != 1>
 import { ${property.type?cap_first}Service } from '../../shared/service/${property.type?cap_first}/${property.type?cap_first}.service';
-        </#if>
   	</#list>
 import { ${class.getName()?cap_first}Service } from '../../shared/service/${class.getName()?cap_first}/${class.getName()?cap_first}.service';
 <#list properties as property>
@@ -58,6 +57,8 @@ export class ${class.getName()}EditComponent implements OnInit {
    <#list referenceProperties as property>
 		<#if property.upper == 1>
         ${property.name?uncap_first}: ${property.type?cap_first} | null = null;
+        all${property.name?cap_first}s : any = [];
+        ${property.name?uncap_first}Control = new FormControl<any | null>(null, Validators.required);
         <#else>
         ${property.name?uncap_first}: ${property.type?cap_first}[] = [];
         all${property.name?cap_first}: ${property.type?cap_first}[] = [];
@@ -72,9 +73,7 @@ export class ${class.getName()}EditComponent implements OnInit {
     private route: ActivatedRoute,
     private service: ${class.getName()}Service,
     <#list referenceProperties as property>
-		<#if property.upper != 1>
-		private ${property.type?uncap_first}Service: ${property.type?cap_first}Service,
-        </#if>
+	private ${property.type?uncap_first}Service: ${property.type?cap_first}Service,
   	</#list>
   ) {}
 
@@ -97,6 +96,8 @@ export class ${class.getName()}EditComponent implements OnInit {
   	<#if prop.upper == -1>
     this.${prop.type?uncap_first}Service.findAll().then((${prop.getName()})=>{ this. all${prop.name?cap_first}=${prop.getName()};
     })
+    <#else>
+     this.${prop.type?uncap_first}Service.findAll().then((temp)=>{this.all${prop.type?cap_first}s=temp;})
     </#if>
     </#list>
     }else{
@@ -167,6 +168,19 @@ export class ${class.getName()}EditComponent implements OnInit {
   }
 
   onSubmit(): void {
+  	<#list referenceProperties as prop>
+  		<#if prop.upper != -1>
+    const temp${prop.type?cap_first} =this.${prop.type?uncap_first}Control.value?  this.${prop.type?uncap_first}Control.value: null;
+    const matchingS${prop.type?cap_first}s = this.all${prop.type?cap_first}s.filter((s: any) => s.id+"" === temp${prop.type?cap_first});
+
+    if (matchingS${prop.type?cap_first}s.length > 0) {
+      this.${prop.name} = matchingS${prop.type?cap_first}s[0];
+    }
+    	</#if>
+    </#list>
+  
+  
+  
     if (this.${class.getName()?uncap_first}Form.valid) {
       const formData = this.${class.getName()?uncap_first}Form.value;
        const ${class.getName()?uncap_first} = new ${class.getName()?cap_first}(

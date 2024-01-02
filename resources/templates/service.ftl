@@ -65,7 +65,16 @@ public class ${class.name}Service  {
     	<#if prop.upper ==-1>
     	for(${prop.type?cap_first} g : ${class.name?uncap_first}.get${prop.name?cap_first}()){
     	 	${prop.type?cap_first} gr = ${prop.type?uncap_first}Repository.findById(g.getId()).get();
-            gr.set${class.getName()?cap_first}(s);
+    	 	<#if prop.cardinality == "ManyToMany">
+    	 	if(gr.get${class.getName()?cap_first}s()==null){
+                 gr.set${class.getName()?cap_first}s(new ArrayList<>());
+
+             }
+             gr.get${class.getName()?cap_first}s().add(s);
+    	 	<#else>
+    	 	 gr.set${class.getName()?cap_first}(s);
+    	 	</#if>
+            
             ${prop.type?uncap_first}Repository.save(gr);
         }
     	</#if>
@@ -81,7 +90,18 @@ public class ${class.name}Service  {
             List<${prop.type?cap_first}> g = ${class.name?uncap_first}Repository.findById(${class.name?uncap_first}.get${idName?cap_first}()).get().get${prop.name?cap_first}();
             if(g!=null){
                 for(${prop.type?cap_first} gr : g){
+                
+                <#if prop.cardinality == "ManyToMany">
+                	List<${class.getName()?cap_first}> depInIns = gr.get${class.getName()?cap_first}s();
+                    for(${class.getName()?cap_first} d : depInIns){
+                        if(d.getIdSTR().equals( ${class.getName()?uncap_first}.getIdSTR())){
+                            depInIns.remove(d);
+                            break;
+                        }
+                    }
+                <#else>
                     gr.set${class.name?cap_first}(null);
+                </#if>
                     ${prop.type?uncap_first}Repository.save(gr);
                 }
             }
@@ -94,6 +114,15 @@ public class ${class.name}Service  {
     	<#if prop.upper ==-1>
     	for(${prop.type?cap_first} g : ${class.name?uncap_first}.get${prop.name?cap_first}()){
             g.set${class.name?cap_first}(${class.name?uncap_first});
+            <#if prop.cardinality == "ManyToMany">
+    	 	if(g.get${class.getName()?cap_first}s()==null){
+                 g.set${class.getName()?cap_first}s(new ArrayList<>());
+
+             }
+             g.get${class.getName()?cap_first}s().add(s);
+    	 	<#else>
+    	 	 g.set${class.getName()?cap_first}(s);
+    	 	</#if>
             ${prop.type?uncap_first}Repository.save(g);
         }
     	</#if>
