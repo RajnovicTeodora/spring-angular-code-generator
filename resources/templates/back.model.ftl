@@ -1,5 +1,5 @@
 <#assign hasId = false>
-<#assign nameId = "">
+<#assign nameId = "id">
 <#assign typeId = "">
 <#assign hasEnum = false>
 <#list primitiveProperties as prim>
@@ -155,4 +155,5 @@ ${class.visibility} class ${class.name}{
 	<#if hasId>
 	public ${typeId} getId() { return ${nameId}; }
 	</#if>
+	public String getIdSTR() { return ${nameId}+"";}
 }
