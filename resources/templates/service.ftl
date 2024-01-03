@@ -113,15 +113,15 @@ public class ${class.name}Service  {
     	<#list referenceProperties as prop>
     	<#if prop.upper ==-1>
     	for(${prop.type?cap_first} g : ${class.name?uncap_first}.get${prop.name?cap_first}()){
-            g.set${class.name?cap_first}(${class.name?uncap_first});
+            
             <#if prop.cardinality == "ManyToMany">
     	 	if(g.get${class.getName()?cap_first}s()==null){
                  g.set${class.getName()?cap_first}s(new ArrayList<>());
 
              }
-             g.get${class.getName()?cap_first}s().add(s);
+             g.get${class.getName()?cap_first}s().add(${class.name?uncap_first});
     	 	<#else>
-    	 	 g.set${class.getName()?cap_first}(s);
+    	 	 g.set${class.getName()?cap_first}(${class.name?uncap_first});
     	 	</#if>
             ${prop.type?uncap_first}Repository.save(g);
         }
