@@ -6,6 +6,7 @@
     <#assign idName = prim.name>
   </#if>
 </#list>
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +26,7 @@ export class ${class.getName()}DeleteComponent implements OnInit{
   ngOnInit(): void {
   }
   constructor(
+  private router: Router,
     protected ${class.getName()?uncap_first}Service: ${class.getName()}Service, 
     protected activeModal: NgbActiveModal) {}
 
@@ -33,7 +35,7 @@ export class ${class.getName()}DeleteComponent implements OnInit{
   }
 
   confirmDelete(id: any): void {
-  	const resp =  this.${class.getName()?uncap_first}Service.delete(this.${class.getName()?uncap_first}!.${idName});
+  	const resp =  this.${class.getName()?uncap_first}Service.delete(this.${class.getName()?uncap_first}!.${idName}).then(()=>this.router.navigate(['${class.getName()?uncap_first}']));
     // this.${class.getName()?uncap_first}Service.delete(id).subscribe(() => {
     //   this.activeModal.close('deleted');
     // });

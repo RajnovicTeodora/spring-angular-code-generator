@@ -15,7 +15,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 <#list referenceProperties as property>
 import { ${property.type?cap_first}Service } from '../../shared/service/${property.type?cap_first}/${property.type?cap_first}.service';
   	</#list>
@@ -75,6 +75,7 @@ export class ${class.getName()}EditComponent implements OnInit {
     <#list referenceProperties as property>
 	private ${property.type?uncap_first}Service: ${property.type?cap_first}Service,
   	</#list>
+  	private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -187,9 +188,9 @@ export class ${class.getName()}EditComponent implements OnInit {
        <#list primitiveProperties as prop> formData["${prop.name}"],</#list><#list referenceProperties as prop>this.${prop.name},</#list> <#if !hasIdProperty>this.id</#if>)
       
       if (this.isEditMode) {
-      	const resp = this.service.update(this.${idName}, ${class.getName()?uncap_first});
+      	const resp = this.service.update(this.${idName}, ${class.getName()?uncap_first}).then(()=>this.router.navigate(['${class.getName()?uncap_first}']));
       } else {
-       const resp =   this.service.create(${class.getName()?uncap_first});
+       const resp =   this.service.create(${class.getName()?uncap_first}).then(()=>this.router.navigate(['${class.getName()?uncap_first}']));
         // this.${class.getName()?uncap_first}Service.create(formData).subscribe(...);
       }
     }
