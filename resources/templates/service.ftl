@@ -211,7 +211,7 @@ public void delete(Long id) {
 		${class.name?cap_first} existing${class.name?cap_first} = maybe${class.name?cap_first}.get();
         existing${class.name?cap_first}.setDeleted(true);
         <#list class.referenceProperties as property>
-            if(!existing${class.name?cap_first}.get${property.name?cap_first}().getClass().isPrimitive()){
+            if(existing${class.name?cap_first}.get${property.name?cap_first}()!=null){
                 <#if property.upper == -1>
                 for (${property.type} p: existing${class.getName()?cap_first}.get${property.name?cap_first}()){
                     p.setDeleted(true);
