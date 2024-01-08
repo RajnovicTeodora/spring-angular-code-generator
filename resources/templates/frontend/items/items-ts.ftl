@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ${class.name?cap_first}Service } from '../../shared/service/${class.name}/${class.name}.service';
 import { ${class.name?cap_first} } from '../../shared/model/${class.name}';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAdd, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faInfo, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { ${class.name?cap_first}DeleteComponent } from '../${class.name?cap_first}-delete/${class.name?cap_first}-delete.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +26,8 @@ export class ${class.name?cap_first}sComponent implements OnInit {
   ${class.name?lower_case}s: ${class.name?cap_first}[] = [];
   faInfo = faInfo;
   faAdd = faAdd;
+  faTrash = faTrash;
+  faEdit = faEdit;
 
   constructor(
     private service: ${class.name?cap_first}Service,

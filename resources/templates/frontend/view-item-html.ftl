@@ -11,19 +11,16 @@
         <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
         	 <#if property.upper == -1>
             <div class="form-group">
-                <label>${property.name}:</label>
-                <table class="table table-striped">
+                <label>${property.name?cap_first}:</label>
+                <table class="table table-striped" *ngIf="${property.name?uncap_first} !== null && ${property.name?uncap_first}?.length > 0">
                     <thead>
                     <tr>
-                    <td *ngFor="let property of getObjectProperties(${property.name})">{{ property }}</td>
-                    <th scope="col"></th>
-
+                    <td *ngFor="let property of getHeader(${property.name?uncap_first}[0])">{{ property }}</td>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let one${property.name} of ${property.name};" data-cy="entityTable">
-                    <td *ngFor="let property of getObjectProperties(one${property.name})">{{ one${property.name}[property] }}</td>
-                        <!-- <a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a> -->
+                    <tr *ngFor="let one${property.name} of ${property.name?uncap_first};" data-cy="entityTable">
+                    <td *ngFor="let value of getObjectProperties(one${property.name})">{{ value }}</td>
                     </tr>
                     </tbody>
                 </table>

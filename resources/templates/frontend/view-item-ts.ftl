@@ -55,7 +55,9 @@ export class ${class.name}ViewComponent implements OnInit{
   </#list>
   <#if !hasIdProperty>
   		id: number = 0;
-</#if>
+  <#else>
+  		id: any;	
+  </#if>
   constructor(
     private route: ActivatedRoute,
     private service: ${class.name}Service
@@ -69,6 +71,7 @@ export class ${class.name}ViewComponent implements OnInit{
     this.route.params.subscribe((params) => {
       if (params['id']) { ///todo ili ovde da ide nest sto nije id, tipa indeks da je id
         const ${class.name?uncap_first}Id = params['id'];
+  		this.id = params['id'];
         this.fetch${class.name}Data(${class.name?uncap_first}Id);
       }
     });
@@ -80,14 +83,27 @@ export class ${class.name}ViewComponent implements OnInit{
         this.${property.name?uncap_first} = ${class.name?uncap_first}Data.${property.name?uncap_first};
       </#list>
       <#list referenceProperties as prop>
+      <#if prop.upper == -1>
        this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName?uncap_first}).then((${prop.name?uncap_first}: any)=>{
       this.${prop.name} = ${prop.name};
   		});
+  	  </#if>
       </#list>
     });
   }
-   public getObjectProperties(${class.name?uncap_first}: ${class.name?cap_first}): any {
-    return Object.keys(${class.name?uncap_first});
+  getHeader(prototpe: any): any {
+    if (prototpe) return Object.keys(prototpe);
+  }
+
+  public getObjectProperties(obj: any): any {
+    if (obj) {
+      return Object.keys(obj).map((key) => {
+        if (Object(obj[key]) === obj[key]) {
+          return obj[key].id;
+        }
+        return obj[key];
+      });
+    }
   }
 
 }

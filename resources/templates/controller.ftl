@@ -10,6 +10,7 @@
 </#list>
 package ${class.typePackage}.controller;
 
+import javassist.NotFoundException;
 import ${class.typePackage}.model.${class.name};
 import ${class.typePackage}.service.${class.name}Service;
 import uns.ac.rs.mbrs.dto.${class.getName()?cap_first}DTO;
@@ -36,7 +37,7 @@ public class ${class.name}Controller {
 	}
 
 	@GetMapping("/{<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>}")
-	public ResponseEntity<${class.name}DTO> findOne(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>) {
+	public ResponseEntity<${class.name}DTO> findOne(@PathVariable <#if hasIdProperty>${idType} ${idName?uncap_first}<#else>Long id</#if>) throws NotFoundException {
 		${class.name}DTO ${class.name?uncap_first} = ${class.name?uncap_first}Service.findOne(<#if hasIdProperty>${idName?uncap_first}<#else>id</#if>);
 		return ResponseEntity.ok().body(${class.name?uncap_first});
 	}

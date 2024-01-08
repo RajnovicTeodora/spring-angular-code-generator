@@ -10,15 +10,15 @@
 </#list>
 package ${class.getTypePackage()}.service;
 
+import javassist.NotFoundException;
 import java.util.ArrayList;
 import ${class.getTypePackage()}.repository.${class.getName()}Repository;
 import ${class.getTypePackage()}.model.${class.getName()?cap_first};
 <#list class.referenceProperties as p>
-<#if p.upper == -1>
 import ${class.getTypePackage()}.model.${p.type?cap_first};
+import ${class.getTypePackage()}.mapper.${class.name?cap_first}Mapper;
 import ${class.getTypePackage()}.mapper.${p.type?cap_first}Mapper;
 import ${class.getTypePackage()}.dto.${p.type?cap_first}DTO;
-</#if>
 </#list>
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +36,7 @@ import uns.ac.rs.mbrs.dto.${class.getName()?cap_first}DTO;
 @Transactional
 public class ${class.name}Service  {
 
+	private final ${class.name}Mapper ${class.name?uncap_first}Mapper;
     private final ${class.name}Repository ${class.name?uncap_first}Repository;
     <#list class.referenceProperties as property>
      private final ${property.type}Repository ${property.type?uncap_first}Repository;
@@ -45,10 +46,12 @@ public class ${class.name}Service  {
 		</#list> 
 
     public ${class.name}Service(
+    	${class.name?cap_first}Mapper ${class.name?uncap_first}Mapper,
         ${class.name}Repository ${class.name?uncap_first}Repository <#list class.referenceProperties as property>,${property.type}Repository ${property.name?uncap_first}Repository 
              <#if property.upper ==-1>,${property.type}Mapper ${property.type?uncap_first}Mapper</#if>
 		</#list>
     ) {
+    	this.${class.name?uncap_first}Mapper = ${class.name?uncap_first}Mapper;
         this.${class.name?uncap_first}Repository = ${class.name?uncap_first}Repository;
         <#list class.referenceProperties as property>
          this.${property.type?uncap_first}Repository = ${property.name?uncap_first}Repository; 
@@ -185,19 +188,21 @@ public class ${class.name}Service  {
 
 
     @Transactional(readOnly = true)
-    public ${class.name}DTO findOne(Long id) {
-    	${class.name?cap_first} s =  ${class.name?uncap_first}Repository.findById(id).get();
-        ${class.name?cap_first}DTO dto = new ${class.name?cap_first}DTO();
-        <#list primitiveProperties as prop>
-       <#if !( prop.type == "int" || prop.type == "long" || prop.type == "Integer" || prop.type == "float" || prop.type == "Double" || prop.type == "double" || prop.type == "String" || prop.type == "char" || prop.type == "boolean")>
-	    dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}().toString());
-        <#else>
-        dto.set${prop.getName()?cap_first}(s.get${prop.getName()?cap_first}());
-        </#if>
-        </#list>
-        return dto;
-    }
-
+    public ${class.name}DTO findOne(Long id) throws NotFoundException {
+    	Optional<${class.name?cap_first}> maybe${class.name?cap_first} =  ${class.name?uncap_first}Repository.findById(id);
+    	if(maybe${class.name?cap_first}.isPresent()) {
+    	  ${class.name?cap_first} ${class.name?uncap_first}	= maybe${class.name?cap_first}.get();
+    	  <#list class.referenceProperties as property>
+    	  	<#if property.upper == 1>
+    	  	${property.name?cap_first} ${property.name?uncap_first} = ${property.name}Repository.getById(${class.name?uncap_first}.get${property.name?cap_first}().getId());
+            ${class.name?uncap_first}.set${property.name?cap_first}(${property.name});
+    	  	</#if>
+    	  </#list>
+    	  return ${class.name?uncap_first}Mapper.toDTO(${class.name?uncap_first});
+    	}
+        throw new NotFoundException("");
+     }
+   
                    
 public void delete(Long id) {
     Optional<${class.name}> maybe${class.name?cap_first} = ${class.name?uncap_first}Repository.findById(id);
@@ -223,7 +228,7 @@ public void delete(Long id) {
 }
 
 <#list referenceProperties as prop>
-	<#if prop.upper ==-1>
+	<#if prop.upper ==-1 && prop.cardinality == "ManyToMany">
 	public Object find${prop.name?cap_first}Of${class.getName()?cap_first}(${idType} ${idName}) {
         Optional<${class.getName()?cap_first}> ${class.getName()?uncap_first}=${class.getName()?uncap_first}Repository.findById(${idName});
         if(${class.getName()?uncap_first}.isPresent()){
@@ -238,6 +243,16 @@ public void delete(Long id) {
                 }
         return new ArrayList<>();
     }
+	<#elseif prop.upper == -1 && prop.cardinality == "OneToMany">
+    public List<${prop.type?cap_first}DTO> find${prop.name?cap_first}Of${class.getName()?cap_first}(${idType} ${idName}) {
+      List<${prop.type?cap_first}> ${prop.type?uncap_first}s = ${prop.type?uncap_first}Repository.findAllBy${class.name?cap_first}Id(${idName});
+      List<${prop.type?cap_first}DTO> dtos = new ArrayList<>();
+      for (${prop.type?cap_first} ${prop.type?uncap_first} : ${prop.type?uncap_first}s){ 
+        dtos.add(${prop.type?uncap_first}Mapper.toDTO(${prop.type?uncap_first}));
+      }
+      return dtos;
+
+	}
 	</#if>
 	</#list>
 }

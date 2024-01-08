@@ -6,7 +6,7 @@
   <#if prim.isId>
     <#assign hasId = true>
     <#assign nameId = prim.name>
-	<#assign typeId = prim.type>
+    <#assign typeId = prim.type>
   </#if>
   <#if prim.isEnum>
     <#assign hasEnum = true>
@@ -15,17 +15,17 @@
 <#lt>package ${class.typePackage}.model;
 
 import lombok.AllArgsConstructor;
-
+import org.hibernate.annotations.Where;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import java.util.Date;
 
-//import ${class.typePackage}.enumeration.*;
 <#if hasEnum == true>import ${class.typePackage}.enumeration.*;</#if>
 
 @AllArgsConstructor
 @Entity
+@Where(clause = "deleted = false")
 <#if (class.tableName)??>@Table(name = "${class.tableName}")</#if>
 ${class.visibility} class ${class.name}{
 	<#if hasId == false>${'\n'}    @Id${'\n'}    @GeneratedValue${'\n'}    private long id;${'\n'} </#if>

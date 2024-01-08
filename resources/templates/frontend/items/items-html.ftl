@@ -27,12 +27,12 @@
       </#list>
       <td>
         <button (click)="open(${class.name?lower_case}.${identifier?lower_case})" class="btn btn-info">
-          <fa-icon [icon]="faInfo"></fa-icon>
+          <fa-icon [icon]="faEdit"></fa-icon>
         </button>
       </td>
       <td>
         <button (click)="delete(${class.name?lower_case})" class="btn btn-danger">
-          <fa-icon [icon]="faInfo"></fa-icon>
+          <fa-icon [icon]="faTrash"></fa-icon>
         </button>
       </td>
       <td>

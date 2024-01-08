@@ -24,7 +24,7 @@ import { ${class.getName()?cap_first}Service } from '../../shared/service/${clas
     <#if property.class.name == "myplugin.generator.fmmodel.FMReferenceProperty">
     <#if property.upper == 1>
 import { ${property.getName()?cap_first} } from '../../shared/model/${property.getName()?cap_first}';
-<#elseif property.upper == -1>
+<#elseif property.upper == -1 && (property.cardinality)?? && (property.cardinality == "ManyToMany")>
 import { ${property.type?cap_first} } from '../../shared/model/${property.type?cap_first}';
 </#if>
     </#if>
@@ -59,7 +59,7 @@ export class ${class.getName()}EditComponent implements OnInit {
         ${property.name?uncap_first}: ${property.type?cap_first} | null = null;
         all${property.name?cap_first}s : any = [];
         ${property.name?uncap_first}Control = new FormControl<any | null>(null, Validators.required);
-        <#else>
+        <#elseif property.upper == -1 && (property.cardinality)?? && (property.cardinality == "ManyToMany")>
         ${property.name?uncap_first}: ${property.type?cap_first}[] = [];
         all${property.name?cap_first}: ${property.type?cap_first}[] = [];
         </#if>
@@ -94,10 +94,10 @@ export class ${class.getName()}EditComponent implements OnInit {
     </#list>
     });
      <#list referenceProperties as prop>
-  	<#if prop.upper == -1>
+  	<#if prop.upper == -1 && (property.cardinality)?? && (property.cardinality == "ManyToMany")>
     this.${prop.type?uncap_first}Service.findAll().then((${prop.getName()})=>{ this. all${prop.name?cap_first}=${prop.getName()};
     })
-    <#else>
+    <#elseif prop.upper == 1>
      this.${prop.type?uncap_first}Service.findAll().then((temp)=>{this.all${prop.type?cap_first}s=temp;})
     </#if>
     </#list>
@@ -111,7 +111,7 @@ export class ${class.getName()}EditComponent implements OnInit {
   }
   
   <#list referenceProperties as prop>
-  <#if prop.upper == -1>
+  <#if prop.upper == -1 && (prop.cardinality)?? && (prop.cardinality == "ManyToMany")>
    public add${prop.type?cap_first}(id: any):void{
     const g: ${prop.type?cap_first} | undefined = this.all${prop.name?cap_first}.find(x => x.id === id);
     if (g) {
@@ -127,7 +127,7 @@ export class ${class.getName()}EditComponent implements OnInit {
  public check${prop.type?cap_first}(id: any): boolean{
     return this.${prop.name}.find(x => x.id === id)? true: false;
   }
-</#if>
+	</#if>
   </#list>
   
   
@@ -141,7 +141,7 @@ export class ${class.getName()}EditComponent implements OnInit {
         this.fetch${class.getName()}Data(${class.getName()?uncap_first}Id);
       }
         <#list referenceProperties as prop>
-  	<#if prop.upper == -1>
+  	<#if prop.upper == -1 && (prop.cardinality)?? && (prop.cardinality == "ManyToMany")>
   	this.service.find${prop.name?cap_first}By${class.getName()?cap_first}${idName?cap_first}(this.${idName}).then((${prop.name}: any)=>{
       this.${prop.name} = ${prop.name};
    
@@ -157,9 +157,11 @@ export class ${class.getName()}EditComponent implements OnInit {
     this.service.findById(${class.getName()?uncap_first}Id).then((${class.getName()?uncap_first}Data: any) => {
     
     <#list referenceProperties as property>
+    <#if property.upper == 1 || ( property.upper == -1 && (property.cardinality)?? && (property.cardinality == "ManyToMany"))>
     if(${class.getName()?uncap_first}Data.${property.name?uncap_first} != undefined  ){
         this.${property.name?uncap_first}=  ${class.getName()?uncap_first}Data.${property.name?uncap_first};}
-  </#list>
+    </#if>
+    </#list>
       this.${class.getName()?uncap_first}Form.patchValue({
         <#list primitiveProperties as property>
               ${property.name?uncap_first}: ${class.getName()?uncap_first}Data.${property.name?uncap_first},
@@ -185,7 +187,9 @@ export class ${class.getName()}EditComponent implements OnInit {
     if (this.${class.getName()?uncap_first}Form.valid) {
       const formData = this.${class.getName()?uncap_first}Form.value;
        const ${class.getName()?uncap_first} = new ${class.getName()?cap_first}(
-       <#list primitiveProperties as prop> formData["${prop.name}"],</#list><#list referenceProperties as prop>this.${prop.name},</#list> <#if !hasIdProperty>this.id</#if>)
+       <#list primitiveProperties as prop> formData["${prop.name}"],</#list>
+       <#list referenceProperties as prop> <#if prop.upper == 1 || (prop.upper == -1 && (prop.cardinality)?? && (prop.cardinality == "ManyToMany"))>this.${prop.name},<#elseif prop.upper == -1 && (prop.cardinality)?? && !(prop.cardinality == "ManyToMany")>[],</#if></#list> <#if !hasIdProperty>this.id</#if>)
+       
       
       if (this.isEditMode) {
       	const resp = this.service.update(this.${idName}, ${class.getName()?uncap_first}).then(()=>this.router.navigate(['${class.getName()?uncap_first}']));
@@ -196,12 +200,14 @@ export class ${class.getName()}EditComponent implements OnInit {
     }
   }
   <#list referenceProperties as property>
+   <#if property.upper == 1 || ( property.upper == -1 && (property.cardinality)?? && (property.cardinality == "ManyToMany"))>
    public getObjectProperties${property.name?cap_first}(${property.name?uncap_first}: ${property.type?cap_first} | null): any {
     return Object.keys(${property.name?uncap_first}? ${property.name?uncap_first}:{});
   }
   public getValue${property.name?cap_first}(${property.type?uncap_first}: ${property.type?cap_first}, property: string): any{
     return ${property.type?uncap_first}[property];
   }
+  </#if>
   </#list>
   
   
